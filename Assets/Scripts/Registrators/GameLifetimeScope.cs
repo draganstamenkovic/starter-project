@@ -1,0 +1,18 @@
+using Registrators;
+using VContainer;
+using VContainer.Unity;
+
+public class GameLifetimeScope : LifetimeScope
+{
+    protected override void Configure(IContainerBuilder builder)
+    {
+        ConfigsRegistrator.Register(builder);
+        GameRegistrator.Register(builder);
+        GuiRegistrator.Register(builder);
+        AudioRegistrator.Register(builder);
+        AnalyticsRegistrator.Register(builder);
+        ScreenControllersRegistrator.Register(builder);
+        
+        builder.RegisterEntryPoint<Bootstrap>();
+    }
+}
