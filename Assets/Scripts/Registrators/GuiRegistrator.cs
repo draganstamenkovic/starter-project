@@ -1,4 +1,7 @@
-using GUI.Managers;
+using GUI;
+using GUI.Popups;
+using GUI.Popups.Builder;
+using GUI.Screens;
 using VContainer;
 using VContainer.Unity;
 
@@ -9,7 +12,9 @@ namespace Registrators
         public static void Register(IContainerBuilder builder)
         {
             builder.RegisterComponentInHierarchy<GuiManager>();
-            builder.Register<IGuiScreenManager, GuiScreenManager>(Lifetime.Singleton);
+            builder.Register<IScreenManager, ScreenManager>(Lifetime.Singleton);
+            builder.Register<IPopupBuilder, PopupBuilder>(Lifetime.Singleton);
+            builder.Register<IPopupManager, PopupManager>(Lifetime.Singleton);
         }
     }
 }

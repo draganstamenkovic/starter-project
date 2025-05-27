@@ -624,7 +624,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 31
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -641,9 +641,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d76efe064093cc4792c18f5e2ca7f68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guiScreensContainer: {fileID: 1719131041}
-  _guiSpinner: {fileID: 572535074}
-  _guiScreenBlocker: {fileID: 917522758}
+  _screensContainer: {fileID: 1719131041}
+  _popupsContainer: {fileID: 1268566756}
+  _spinner: {fileID: 572535074}
+  _screenBlocker: {fileID: 917522758}
 --- !u!1 &1268566755
 GameObject:
   m_ObjectHideFlags: 0

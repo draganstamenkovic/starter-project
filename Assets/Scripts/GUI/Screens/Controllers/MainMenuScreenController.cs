@@ -1,4 +1,3 @@
-using GUI.Managers;
 using GUI.Screens.Views;
 using UnityEngine;
 using VContainer;
@@ -7,7 +6,7 @@ namespace GUI.Screens.Controllers
 {
     public class MainMenuScreenController : IScreenController
     {
-        private IGuiScreenManager _guiScreenManager;
+        private IScreenManager _screenManager;
         
         private MainMenuScreenView _view;
         public string ID => GuiScreenIds.MainMenuScreen;
@@ -16,10 +15,10 @@ namespace GUI.Screens.Controllers
             _view = view as MainMenuScreenView;
         }
 
-        public void Initialize(IGuiScreenManager guiScreenManager)
+        public void Initialize(IScreenManager screenManager)
         {
             Debug.Log("Initializing Main Menu Screen");
-            _guiScreenManager = guiScreenManager;
+            _screenManager = screenManager;
             _view.OnShow = RegisterListeners;
             _view.OnHidden = RemoveListeners;
         }
@@ -32,12 +31,12 @@ namespace GUI.Screens.Controllers
 
         private void OnSettingsButtonClick()
         {
-            _guiScreenManager.ShowScreen(GuiScreenIds.SettingsScreen);
+            _screenManager.ShowScreen(GuiScreenIds.SettingsScreen);
         }
 
         private void OnPlayButtonClick()
         {
-            _guiScreenManager.ShowScreen(GuiScreenIds.PlayScreen);
+            _screenManager.ShowScreen(GuiScreenIds.PlayScreen);
         }
 
         private void RemoveListeners()

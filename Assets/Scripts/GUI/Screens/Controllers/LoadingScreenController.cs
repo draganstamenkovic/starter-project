@@ -1,4 +1,3 @@
-using GUI.Managers;
 using GUI.Screens.Views;
 using UnityEngine;
 
@@ -6,7 +5,7 @@ namespace GUI.Screens.Controllers
 {
     public class LoadingScreenController : IScreenController
     {
-        private IGuiScreenManager _guiScreenManager;
+        private IScreenManager _screenManager;
         private LoadingScreenView _view;
         public string ID => GuiScreenIds.LoadingScreen;
         public void SetView(IScreenView view)
@@ -14,9 +13,9 @@ namespace GUI.Screens.Controllers
             _view = view as LoadingScreenView;
         }
 
-        public void Initialize(IGuiScreenManager guiScreenManager)
+        public void Initialize(IScreenManager screenManager)
         {
-            _guiScreenManager = guiScreenManager;
+            _screenManager = screenManager;
             Debug.Log("Initializing Loading Screen");
         }
     }

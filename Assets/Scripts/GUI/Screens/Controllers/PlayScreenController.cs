@@ -1,4 +1,3 @@
-using GUI.Managers;
 using GUI.Screens.Views;
 using UnityEngine;
 using VContainer;
@@ -7,7 +6,7 @@ namespace GUI.Screens.Controllers
 {
     public class PlayScreenController : IScreenController
     {
-        private IGuiScreenManager _guiScreenManager;
+        private IScreenManager _screenManager;
         
         private PlayScreenView _view;
         public string ID => GuiScreenIds.PlayScreen;
@@ -17,9 +16,9 @@ namespace GUI.Screens.Controllers
             _view = view as PlayScreenView;
         }
 
-        public void Initialize(IGuiScreenManager guiScreenManager)
+        public void Initialize(IScreenManager screenManager)
         {
-            _guiScreenManager = guiScreenManager;
+            _screenManager = screenManager;
            Debug.Log("Initializing Play Screen");
             _view.OnShow = RegisterListeners;
             _view.OnHidden = RemoveListeners;
@@ -32,7 +31,7 @@ namespace GUI.Screens.Controllers
 
         private void OnMainMenuButtonClicked()
         {
-            _guiScreenManager.ShowScreen(GuiScreenIds.MainMenuScreen);
+            _screenManager.ShowScreen(GuiScreenIds.MainMenuScreen);
         }
 
         private void RemoveListeners()

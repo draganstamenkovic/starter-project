@@ -6,8 +6,5 @@ namespace GUI.Screens
         public const string LoadingScreen = "LoadingScreen";
         public const string SettingsScreen = "SettingsScreen";
         public const string PlayScreen = "PlayScreen";
-        public const string DeleteScreen = "DeleteScreen";
-        public const string DeleteTWOScreen = "DeleteTWOScreen";
-        public const string DeleteThreeScreen = "DeleteThreeScreen";
     }
 }

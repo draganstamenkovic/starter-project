@@ -8,9 +8,9 @@ using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-namespace GUI.Managers
+namespace GUI.Screens
 {
-    public class GuiScreenManager : IGuiScreenManager
+    public class ScreenManager : IScreenManager
     {
         [Inject] private GUIScreensConfig _guiScreensConfig;
         [Inject] private IEnumerable<IScreenController> _controllers;
@@ -23,7 +23,7 @@ namespace GUI.Managers
         private Transform _screenParent;
         private string _currentScreen;
 
-        public GuiScreenManager(IObjectResolver objectResolver)
+        public ScreenManager(IObjectResolver objectResolver)
         {
             _objectResolver = objectResolver;
         }

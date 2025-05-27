@@ -1,4 +1,4 @@
-namespace GUI.Managers
+namespace GUI.Screens
 {
     public enum TransitionDirection
     {

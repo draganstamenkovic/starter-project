@@ -1,5 +1,4 @@
 using Cysharp.Threading.Tasks;
-using GUI.Managers;
 using GUI.Screens;
 using UnityEngine;
 using VContainer;
@@ -8,11 +7,11 @@ namespace Managers
 {
     public class GameManager : IGameManager
     {
-        [Inject] private readonly IGuiScreenManager _guiScreenManager;
+        [Inject] private readonly IScreenManager _screenManager;
         public UniTask StartGame()
         {
             Debug.Log("Game Start");
-            _guiScreenManager.ShowScreen(GuiScreenIds.MainMenuScreen);
+            _screenManager.ShowScreen(GuiScreenIds.MainMenuScreen);
             return UniTask.CompletedTask;
         }
 

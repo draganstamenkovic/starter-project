@@ -1,9 +1,9 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace GUI.Managers
+namespace GUI.Screens
 {
-    public interface IGuiScreenManager
+    public interface IScreenManager
     {
         UniTask Initialize(Transform parent, GameObject screenBlocker);
         UniTask ShowScreen(string screenName, TransitionDirection direction = TransitionDirection.Center);

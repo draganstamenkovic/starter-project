@@ -1,4 +1,3 @@
-using GUI.Managers;
 using GUI.Screens.Views;
 
 namespace GUI.Screens.Controllers
@@ -7,6 +6,6 @@ namespace GUI.Screens.Controllers
     {
         string ID { get; }
         void SetView(IScreenView view);
-        void Initialize(IGuiScreenManager guiScreenManager);
+        void Initialize(IScreenManager screenManager);
     }
 }
