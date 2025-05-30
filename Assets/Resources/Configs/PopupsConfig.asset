@@ -17,4 +17,4 @@ MonoBehaviour:
   TransitionEase: 27
   Popups:
   - Name: ConfirmationPopup
-    PopupPrefab: {fileID: 0}
+    PopupPrefab: {fileID: 3032589485488114594, guid: 9d16282a665e39e4fb9f1f47d0b1933a, type: 3}

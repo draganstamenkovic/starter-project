@@ -7,10 +7,10 @@ namespace GUI.Popups.Builder
     public class PopupBuilder : IPopupBuilder
     {
         private PopupData _popupData = new ();
-
+        
         public PopupBuilder()
         {
-            Reset();
+            Cleanup();
         }
 
         public IPopupBuilder Title(string title)
@@ -39,10 +39,10 @@ namespace GUI.Popups.Builder
             return this;
         }
 
-        private void Reset()
+        public void Cleanup()
         {
-            if(_popupData.Buttons != null)
-                _popupData.Buttons.Clear();
+            Debug.LogError("Reset me");
+            _popupData.Buttons?.Clear();
             _popupData.Title = string.Empty;
             _popupData.Text = string.Empty;
             _popupData.Icon = null;

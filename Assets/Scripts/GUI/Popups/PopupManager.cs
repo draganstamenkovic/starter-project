@@ -44,6 +44,7 @@ namespace GUI.Popups
 
         public void ShowConfirmationPopup(PopupData popupData, Action callback = null)
         {
+            Debug.LogError(popupData.Buttons.Count.ToString());
             var popup = GetPopupRectTransform();
             popup.gameObject.SetActive(true);
             
@@ -53,9 +54,10 @@ namespace GUI.Popups
 
         public void HideConfirmationPopup(Action callback = null)
         {
-            foreach (var popup in _spawnedPopups)
+            if (_spawnedPopups.TryGetValue(PopupIds.ConfirmationPopup, out var popup))
             {
-                popup.Value.gameObject.SetActive(false);
+                
+                popup.gameObject.SetActive(false);
             }
         }
 

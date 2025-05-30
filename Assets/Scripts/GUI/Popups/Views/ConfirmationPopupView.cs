@@ -17,7 +17,8 @@ namespace GUI.Popups.Views
         {
             _title.text = popupData.Title;
             _message.text = popupData.Text;
-            _icon.sprite = popupData.Icon;
+            if(popupData.Icon != null)
+                _icon.sprite = popupData.Icon;
             SetupButtons(popupData.Buttons);
         }
 
@@ -30,7 +31,8 @@ namespace GUI.Popups.Views
 
             for (int index = 0; index < buttonsData.Count; index++)
             {
-                if (index < _buttons.Count)
+                Debug.LogError("Index: " + index);
+                if (index < buttonsData.Count)
                 {
                     _buttons[index].Text.text = buttonsData[index].Text;
                     _buttons[index].Color = buttonsData[index].Color;

@@ -41,18 +41,5 @@ namespace GUI
             if(_activeSpinner)
                 _spinner.transform.Rotate(new Vector3(0, 0, _guiConfig.loadingRotateSpeed));
         }
-
-        [ContextMenu("Show popup")]
-        public void ShowPopup()
-        {
-            var popupData = _popupBuilder.Title("Naslov")
-                .Text("Ovo je neki tekst da vidimo kako izgleda")
-                .AddButton("Dugme", Color.blue, () =>
-                {
-                    Debug.Log("GUIManager ShowPopup");
-                })
-                .Build();
-            _popupManager.ShowConfirmationPopup(popupData);
-        }
     }
 }

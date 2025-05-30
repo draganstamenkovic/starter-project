@@ -21,8 +21,8 @@ public class Bootstrap : IStartable
     private async UniTask InitializeGame()
     {
         Prepare();
-        await _guiManager.Initialize()
-            .ContinueWith(() => _gameManager.Initialize());
+        await _guiManager.Initialize().ContinueWith(() => 
+              _gameManager.Initialize());
     }
 
     private void Prepare()
