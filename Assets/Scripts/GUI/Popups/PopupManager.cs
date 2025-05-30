@@ -44,7 +44,6 @@ namespace GUI.Popups
 
         public void ShowConfirmationPopup(PopupData popupData, Action callback = null)
         {
-            Debug.LogError(popupData.Buttons.Count.ToString());
             var popup = GetPopupRectTransform();
             popup.gameObject.SetActive(true);
             

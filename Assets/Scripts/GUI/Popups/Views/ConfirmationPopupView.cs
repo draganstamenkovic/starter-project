@@ -26,12 +26,12 @@ namespace GUI.Popups.Views
         {
             foreach (var buttonData in _buttons)
             {
+                buttonData.Button.onClick.RemoveAllListeners();
                 buttonData.Button.gameObject.SetActive(false);
             }
 
             for (int index = 0; index < buttonsData.Count; index++)
             {
-                Debug.LogError("Index: " + index);
                 if (index < buttonsData.Count)
                 {
                     _buttons[index].Text.text = buttonsData[index].Text;

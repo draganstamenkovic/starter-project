@@ -37,6 +37,7 @@ namespace GUI.Screens.Controllers
 
         private void OnShowPopupWithTwoButton()
         {
+            _popupBuilder.Clear();
             var popupData = _popupBuilder.Title("Two buttons popup")
                 .Text("This is an example popup with two buttons")
                 .AddButton("Yes", Color.green, () => { Debug.Log("Yes clicked!");})
@@ -60,6 +61,7 @@ namespace GUI.Screens.Controllers
 
         private void OnShowPopupWithOneButton()
         {
+            _popupBuilder.Clear();
             var popupData = _popupBuilder.Title("One button popup")
                 .Text("This is an example popup with one button")
                 .AddButton("Ok", Color.green, () =>
