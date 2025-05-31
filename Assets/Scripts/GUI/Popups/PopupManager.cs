@@ -17,6 +17,7 @@ namespace GUI.Popups
         private IObjectResolver _objectResolver;
         private readonly Dictionary<string, RectTransform> _popups = new();
         private readonly Dictionary<string, RectTransform> _spawnedPopups = new();
+        private readonly Dictionary<string, IPopupView> _spawnedPopupViews = new();
         
         private Transform _popupParent;
         private GameObject _screenBlocker;
@@ -44,19 +45,28 @@ namespace GUI.Popups
 
         public void ShowConfirmationPopup(PopupData popupData, Action callback = null)
         {
+            _screenBlocker.SetActive(true);
             var popup = GetPopupRectTransform();
-            popup.gameObject.SetActive(true);
             
             var popupView = popup.GetComponent<IPopupView>();
             popupView.Initialize(popupData);
+            popupView.Show(() =>
+            {
+                _screenBlocker.SetActive(false);
+                callback?.Invoke();
+            });
         }
 
         public void HideConfirmationPopup(Action callback = null)
         {
-            if (_spawnedPopups.TryGetValue(PopupIds.ConfirmationPopup, out var popup))
+            if (_spawnedPopupViews.TryGetValue(PopupIds.ConfirmationPopup, out var popupView))
             {
-                
-                popup.gameObject.SetActive(false);
+                _screenBlocker.SetActive(true);
+                popupView.Hide(() =>
+                {
+                    _screenBlocker.SetActive(false);
+                    callback?.Invoke();
+                });
             }
         }
 
@@ -84,6 +94,7 @@ namespace GUI.Popups
 
             var popupRect = _objectResolver.Instantiate(popup, _popupParent);
             _spawnedPopups.Add(PopupIds.ConfirmationPopup, popupRect);
+            _spawnedPopupViews.Add(PopupIds.ConfirmationPopup,popupRect.GetComponent<IPopupView>());
             return popupRect;
         }
     }

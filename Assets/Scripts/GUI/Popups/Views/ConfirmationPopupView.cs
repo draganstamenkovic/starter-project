@@ -6,20 +6,23 @@ using UnityEngine.UI;
 
 namespace GUI.Popups.Views
 {
-    public class ConfirmationPopupView : MonoBehaviour, IPopupView
+    public class ConfirmationPopupView : PopupView
     {
         [SerializeField] private TextMeshProUGUI _title;
         [SerializeField] private TextMeshProUGUI _message;
         [SerializeField] private Image _icon;
         [SerializeField] private Button _backgroundButton;
         [SerializeField] List<PopupButtonData> _buttons;
-        public void Initialize(PopupData popupData)
+        public override void Initialize(PopupData popupData)
         {
+            base.Initialize(popupData);
+            
             _title.text = popupData.Title;
             _message.text = popupData.Text;
             if(popupData.Icon != null)
                 _icon.sprite = popupData.Icon;
             SetupButtons(popupData.Buttons);
+            Show();
         }
 
         private void SetupButtons(List<PopupButton> buttonsData)
@@ -56,7 +59,7 @@ namespace GUI.Popups.Views
 
         private void ClosePopup()
         {
-            gameObject.SetActive(false);
+            Hide();
         }
     }
 }

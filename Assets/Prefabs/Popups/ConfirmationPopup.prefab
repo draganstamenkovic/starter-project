@@ -811,6 +811,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aedf4bd2c6f9d2b4192eb9557f59b2ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canvasGroup: {fileID: 3531480494989982714}
   _title: {fileID: 4076745334425972934}
   _message: {fileID: 7877343277430873508}
   _icon: {fileID: 4254062672807395894}
