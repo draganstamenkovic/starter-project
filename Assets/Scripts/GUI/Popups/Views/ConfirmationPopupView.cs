@@ -11,8 +11,8 @@ namespace GUI.Popups.Views
         [SerializeField] private TextMeshProUGUI _title;
         [SerializeField] private TextMeshProUGUI _message;
         [SerializeField] private Image _icon;
+        [SerializeField] private Button _backgroundButton;
         [SerializeField] List<PopupButtonData> _buttons;
-
         public void Initialize(PopupData popupData)
         {
             _title.text = popupData.Title;
@@ -29,7 +29,10 @@ namespace GUI.Popups.Views
                 buttonData.Button.onClick.RemoveAllListeners();
                 buttonData.Button.gameObject.SetActive(false);
             }
-
+            
+            _backgroundButton.onClick.RemoveListener(ClosePopup);
+            
+            _backgroundButton.onClick.AddListener(ClosePopup);
             for (int index = 0; index < buttonsData.Count; index++)
             {
                 if (index < buttonsData.Count)
@@ -49,6 +52,11 @@ namespace GUI.Popups.Views
                     _buttons[index].Button.gameObject.SetActive(false);
                 }
             }
+        }
+
+        private void ClosePopup()
+        {
+            gameObject.SetActive(false);
         }
     }
 }
