@@ -12,6 +12,7 @@ public class GameLifetimeScope : LifetimeScope
         AudioRegistrator.Register(builder);
         AnalyticsRegistrator.Register(builder);
         ScreenControllersRegistrator.Register(builder);
+        PopupControllersRegistrator.Register(builder);
         
         builder.RegisterEntryPoint<Bootstrap>();
     }

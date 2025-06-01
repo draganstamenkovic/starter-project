@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GUI.Screens.Views
 {
-    public class ScreenView : MonoBehaviour,IScreenView
+    public class ScreenView : MonoBehaviour, IScreenView
     {
         public string ID { get; set; }
         public RectTransform RectTransform { get; }

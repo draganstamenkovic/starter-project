@@ -7,7 +7,7 @@ public class ScreenCreatorTool : EditorWindow
 {
     private string screenName = "";
     
-    [MenuItem("Tools/Screen Creator")]
+    [MenuItem("Tools/GUI Creator/Screen Creator")]
     public static void ShowWindow()
     {
         GetWindow<ScreenCreatorTool>("Screen Creator");

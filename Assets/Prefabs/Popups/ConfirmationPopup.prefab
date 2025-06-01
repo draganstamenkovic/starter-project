@@ -812,10 +812,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canvasGroup: {fileID: 3531480494989982714}
+  _backgroundButton: {fileID: 1480927089075376042}
   _title: {fileID: 4076745334425972934}
   _message: {fileID: 7877343277430873508}
   _icon: {fileID: 4254062672807395894}
-  _backgroundButton: {fileID: 1480927089075376042}
   _buttons:
   - Text: {fileID: 7283557577440676007}
     Color: {r: 1, g: 1, b: 1, a: 0}

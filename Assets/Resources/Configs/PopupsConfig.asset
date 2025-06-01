@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abc7952063b945c69b451c371714a863, type: 3}
   m_Name: PopupsConfig
   m_EditorClassIdentifier: 
-  ShowDuration: 0.35
-  HideDuration: 0.55
-  TransitionEase: 27
+  ShowTransitionDuration: 0.35
+  HideTransitionDuration: 0.15
+  TransitionEase: 1
   Popups:
   - Name: ConfirmationPopup
     PopupPrefab: {fileID: 3032589485488114594, guid: 9d16282a665e39e4fb9f1f47d0b1933a, type: 3}

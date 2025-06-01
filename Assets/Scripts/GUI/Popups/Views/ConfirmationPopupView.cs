@@ -11,18 +11,11 @@ namespace GUI.Popups.Views
         [SerializeField] private TextMeshProUGUI _title;
         [SerializeField] private TextMeshProUGUI _message;
         [SerializeField] private Image _icon;
-        [SerializeField] private Button _backgroundButton;
         [SerializeField] List<PopupButtonData> _buttons;
-        public override void Initialize(PopupData popupData)
+        public override void Initialize()
         {
-            base.Initialize(popupData);
-            
-            _title.text = popupData.Title;
-            _message.text = popupData.Text;
-            if(popupData.Icon != null)
-                _icon.sprite = popupData.Icon;
-            SetupButtons(popupData.Buttons);
-            Show();
+            base.Initialize();
+            ID = PopupIds.ConfirmationPopup;
         }
 
         private void SetupButtons(List<PopupButton> buttonsData)
@@ -33,9 +26,6 @@ namespace GUI.Popups.Views
                 buttonData.Button.gameObject.SetActive(false);
             }
             
-            _backgroundButton.onClick.RemoveListener(ClosePopup);
-            
-            _backgroundButton.onClick.AddListener(ClosePopup);
             for (int index = 0; index < buttonsData.Count; index++)
             {
                 if (index < buttonsData.Count)
@@ -57,9 +47,13 @@ namespace GUI.Popups.Views
             }
         }
 
-        private void ClosePopup()
+        public void SetData(PopupData popupData)
         {
-            Hide();
+            _title.text = popupData.Title;
+            _message.text = popupData.Text;
+            if (popupData.Icon != null)
+                _icon.sprite = popupData.Icon;
+            SetupButtons(popupData.Buttons);
         }
     }
 }

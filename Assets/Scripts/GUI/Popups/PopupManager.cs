@@ -5,7 +5,9 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using VContainer;
 using GUI.Popups.Builder;
+using GUI.Popups.Controllers;
 using GUI.Popups.Views;
+using GUI.Screens.Views;
 using VContainer.Unity;
 
 namespace GUI.Popups
@@ -13,6 +15,7 @@ namespace GUI.Popups
     public class PopupManager : IPopupManager
     {
         [Inject] private readonly PopupsConfig _popupConfig;
+        [Inject] private IEnumerable<IPopupController> _controllers;
         
         private IObjectResolver _objectResolver;
         private readonly Dictionary<string, RectTransform> _popups = new();
@@ -48,8 +51,9 @@ namespace GUI.Popups
             _screenBlocker.SetActive(true);
             var popup = GetPopupRectTransform();
             
-            var popupView = popup.GetComponent<IPopupView>();
-            popupView.Initialize(popupData);
+            var popupView = popup.GetComponent<ConfirmationPopupView>();
+            popupView.SetData(popupData);
+            
             popupView.Show(() =>
             {
                 _screenBlocker.SetActive(false);
@@ -94,8 +98,33 @@ namespace GUI.Popups
 
             var popupRect = _objectResolver.Instantiate(popup, _popupParent);
             _spawnedPopups.Add(PopupIds.ConfirmationPopup, popupRect);
-            _spawnedPopupViews.Add(PopupIds.ConfirmationPopup,popupRect.GetComponent<IPopupView>());
+            _spawnedPopupViews.Add(PopupIds.ConfirmationPopup, popupRect.GetComponent<IPopupView>());
+            
+            InitializePopup(popupRect);
+            
             return popupRect;
+        }
+
+        private void InitializePopup(RectTransform popupRect)
+        {
+            var view = popupRect.GetComponent<IPopupView>();
+            if (view == null)
+            {
+                Debug.LogError("Popup view is not added to popup GameObject");
+            }
+            else
+            {
+                view.Initialize();
+                foreach (var controller in _controllers)
+                {
+                    if (controller.ID.Equals(view.ID))
+                    {
+                        controller.SetView(view);
+                        controller.Initialize(this);
+                        break;
+                    }
+                }
+            }
         }
     }
 }
