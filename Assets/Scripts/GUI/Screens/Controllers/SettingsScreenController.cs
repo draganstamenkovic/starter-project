@@ -41,7 +41,7 @@ namespace GUI.Screens.Controllers
             var popupData = _popupBuilder.Title("Two buttons popup")
                 .Text("This is an example popup with two buttons")
                 .AddButton("Yes", Color.green, () => { Debug.Log("Yes clicked!");})
-                .AddButton("No", Color.white, () => { _popupManager.HideConfirmationPopup(); })
+                .AddButton("No", Color.white, () => { _popupManager.HidePopup(PopupIds.ConfirmationPopup); })
                 .Build();
             
             _popupManager.ShowConfirmationPopup(popupData);
@@ -66,7 +66,7 @@ namespace GUI.Screens.Controllers
                 .Text("This is an example popup with one button")
                 .AddButton("Ok", Color.green, () =>
                 {
-                    _popupManager.HideConfirmationPopup();
+                    _popupManager.HidePopup(PopupIds.ConfirmationPopup);
                 })
                 .Build();
             

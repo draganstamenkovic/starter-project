@@ -49,7 +49,7 @@ namespace GUI.Popups
         public void ShowConfirmationPopup(PopupData popupData, Action callback = null)
         {
             _screenBlocker.SetActive(true);
-            var popup = GetPopupRectTransform();
+            var popup = GetPopupRectTransform(PopupIds.ConfirmationPopup);
             
             var popupView = popup.GetComponent<ConfirmationPopupView>();
             popupView.SetData(popupData);
@@ -61,9 +61,9 @@ namespace GUI.Popups
             });
         }
 
-        public void HideConfirmationPopup(Action callback = null)
+        public void HidePopup(string id, Action callback = null)
         {
-            if (_spawnedPopupViews.TryGetValue(PopupIds.ConfirmationPopup, out var popupView))
+            if (_spawnedPopupViews.TryGetValue(id, out var popupView))
             {
                 _screenBlocker.SetActive(true);
                 popupView.Hide(() =>
@@ -72,33 +72,40 @@ namespace GUI.Popups
                     callback?.Invoke();
                 });
             }
+            else
+            {
+                Debug.LogError($"Popup with id {id} not found");
+                _screenBlocker.SetActive(false);
+            }
         }
 
-        public void ShowPopupScreen(string id, Action callback)
+        public void ShowPopupScreen(string id, Action callback = null)
         {
-            throw new NotImplementedException();
+            _screenBlocker.SetActive(true);
+            var popup = GetPopupRectTransform(id);
+            var popupView = popup.GetComponent<IPopupView>();
+            popupView.Show(() =>
+            {
+                _screenBlocker.SetActive(false);
+                callback?.Invoke();
+            });
         }
 
-        public void HidePopupScreen(string id, Action callback)
+        private RectTransform GetPopupRectTransform(string popupId)
         {
-            throw new NotImplementedException();
-        }
-
-        private RectTransform GetPopupRectTransform()
-        {
-            if (_spawnedPopups.TryGetValue(PopupIds.ConfirmationPopup, out var spawnedPopup))
+            if (_spawnedPopups.TryGetValue(popupId, out var spawnedPopup))
             {
                 return spawnedPopup;
             }
 
-            if (!_popups.TryGetValue(PopupIds.ConfirmationPopup, out var popup))
+            if (!_popups.TryGetValue(popupId, out var popup))
             {
-                Debug.LogError("Confirmation popup is not added in config");
+                Debug.LogError($"Popup Id {popupId} is not added in config");
             }
 
             var popupRect = _objectResolver.Instantiate(popup, _popupParent);
-            _spawnedPopups.Add(PopupIds.ConfirmationPopup, popupRect);
-            _spawnedPopupViews.Add(PopupIds.ConfirmationPopup, popupRect.GetComponent<IPopupView>());
+            _spawnedPopups.Add(popupId, popupRect);
+            _spawnedPopupViews.Add(popupId, popupRect.GetComponent<IPopupView>());
             
             InitializePopup(popupRect);
             

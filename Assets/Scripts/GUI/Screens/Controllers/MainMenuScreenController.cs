@@ -1,3 +1,4 @@
+using GUI.Popups;
 using GUI.Screens.Views;
 using UnityEngine;
 using VContainer;
@@ -7,6 +8,7 @@ namespace GUI.Screens.Controllers
     public class MainMenuScreenController : IScreenController
     {
         private IScreenManager _screenManager;
+        [Inject] private IPopupManager _popupManager;
         
         private MainMenuScreenView _view;
         public string ID => GuiScreenIds.MainMenuScreen;
@@ -20,7 +22,13 @@ namespace GUI.Screens.Controllers
             Debug.Log("Initializing Main Menu Screen");
             _screenManager = screenManager;
             _view.OnShow = RegisterListeners;
+            _view.OnShown = ShowOffer;
             _view.OnHidden = RemoveListeners;
+        }
+
+        private void ShowOffer()
+        {
+            _popupManager.ShowPopupScreen(PopupIds.ShopPopup);
         }
 
         private void RegisterListeners()

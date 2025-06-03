@@ -33,7 +33,7 @@ namespace GUI.Popups.Controllers
 
         private void HidePopup()
         {
-            _popupManager.HideConfirmationPopup();
+            _popupManager.HidePopup(PopupIds.ConfirmationPopup);
         }
     }
 }

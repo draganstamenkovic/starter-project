@@ -5,7 +5,7 @@ namespace GUI.Popups.Controllers
 {
     public class ShopPopupController : IPopupController
     {
-         private IPopupManager _popupManager;
+        private IPopupManager _popupManager;
         private ShopPopupView _view;
         public string ID => PopupIds.ShopPopup;
 
@@ -25,17 +25,24 @@ namespace GUI.Popups.Controllers
         private void RegisterListeners()
         {
             _view.BackgroundButton.onClick.AddListener(HidePopup);
+            _view.BuyButton.onClick.AddListener(OnBuyButtonClicked);
+            _view.CloseButton.onClick.AddListener(HidePopup);
         }
 
         private void RemoveListeners()
         {
             _view.BackgroundButton.onClick.RemoveListener(HidePopup);
-
+            _view.BuyButton.onClick.RemoveListener(OnBuyButtonClicked);
+            _view.CloseButton.onClick.RemoveListener(HidePopup);
         }
 
         private void HidePopup()
         {
-            _popupManager.HideConfirmationPopup();
+            _popupManager.HidePopup(PopupIds.ShopPopup);
+        }
+        private void OnBuyButtonClicked()
+        {
+            Debug.Log("OnBuyButtonClicked");
         }
     }
 }
