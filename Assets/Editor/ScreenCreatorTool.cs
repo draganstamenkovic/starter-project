@@ -38,7 +38,6 @@ public class ScreenCreatorTool : EditorWindow
             EditorUtility.DisplayDialog("Error", "Please enter a screen name.", "OK");
             return;
         }
-        CreateScreenGameObject(cleanName);
         CreateViewScript(cleanName);
         CreateControllerScript(cleanName);
         UpdateRegistrator(cleanName);
@@ -55,54 +54,6 @@ public class ScreenCreatorTool : EditorWindow
         
         screenName = "";
     }
-    
-    private void CreateScreenGameObject(string name)
-    {
-        GameObject context = GameObject.Find("_Context_");
-        if (context == null)
-        {
-            context = new GameObject("_Context_");
-        }
-        
-        var guiTransform = context.transform.Find("_GUI_");
-        GameObject gui;
-        if (guiTransform == null)
-        {
-            gui = new GameObject("_GUI_");
-            gui.transform.SetParent(context.transform);
-        }
-        else
-        {
-            gui = guiTransform.gameObject;
-        }
-        
-        var screensTransform = gui.transform.Find("_Screens_");
-        GameObject screens;
-        if (screensTransform == null)
-        {
-            screens = new GameObject("_Screens_");
-            screens.transform.SetParent(gui.transform);
-        }
-        else
-        {
-            screens = screensTransform.gameObject;
-        }
-        
-        var screenObject = new GameObject(name);
-        screenObject.transform.SetParent(screens.transform);
-        
-        var rectTransform = screenObject.AddComponent<RectTransform>();
-        rectTransform.anchorMin = Vector2.zero;
-        rectTransform.anchorMax = Vector2.one;
-        rectTransform.offsetMin = new Vector2(-3000, 0);
-        rectTransform.offsetMax = new  Vector2(-3000, 0);
-        rectTransform.localScale = Vector2.one;
-        
-        screenObject.AddComponent<CanvasGroup>();
-
-        Selection.activeGameObject = screenObject;
-    }
-    
     private void CreateViewScript(string name)
     {
         string directoryPath = "Assets/Scripts/GUI/Screens/Views";

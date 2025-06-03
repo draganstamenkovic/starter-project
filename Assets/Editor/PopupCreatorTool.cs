@@ -41,8 +41,7 @@ namespace Editor
                 EditorUtility.DisplayDialog("Error", "Please enter a popup name.", "OK");
                 return;
             }
-
-            CreatePopupGameObject(cleanName);
+            
             CreateViewScript(cleanName);
             CreateControllerScript(cleanName);
             UpdateRegistrator(cleanName);
@@ -60,54 +59,6 @@ namespace Editor
 
             popupName = "";
         }
-
-        private void CreatePopupGameObject(string name)
-        {
-            GameObject context = GameObject.Find("_Context_");
-            if (context == null)
-            {
-                context = new GameObject("_Context_");
-            }
-
-            var guiTransform = context.transform.Find("_GUI_");
-            GameObject gui;
-            if (guiTransform == null)
-            {
-                gui = new GameObject("_GUI_");
-                gui.transform.SetParent(context.transform);
-            }
-            else
-            {
-                gui = guiTransform.gameObject;
-            }
-
-            var popupsTransform = gui.transform.Find("_Popups_");
-            GameObject popups;
-            if (popupsTransform == null)
-            {
-                popups = new GameObject("_Popups_");
-                popups.transform.SetParent(gui.transform);
-            }
-            else
-            {
-                popups = popupsTransform.gameObject;
-            }
-
-            var popupObject = new GameObject(name);
-            popupObject.transform.SetParent(popups.transform);
-
-            var rectTransform = popupObject.AddComponent<RectTransform>();
-            rectTransform.anchorMin = Vector2.zero;
-            rectTransform.anchorMax = Vector2.one;
-            rectTransform.offsetMin = new Vector2(-3000, 0);
-            rectTransform.offsetMax = new Vector2(-3000, 0);
-            rectTransform.localScale = Vector2.one;
-
-            popupObject.AddComponent<CanvasGroup>();
-
-            Selection.activeGameObject = popupObject;
-        }
-
         private void CreateViewScript(string name)
         {
             string directoryPath = "Assets/Scripts/GUI/Popups/Views";
@@ -175,7 +126,7 @@ namespace Editor
                 .AppendLine("{")
                 .AppendLine($"    public class {name}PopupController : IPopupController")
                 .AppendLine("    {")
-                .AppendLine("         private IPopupManager _popupManager;")
+                .AppendLine("          private IPopupManager _popupManager;")
                 .AppendLine($"        private {name}PopupView _view;")
                 .AppendLine($"        public string ID => PopupIds.{name}Popup;")
                 .AppendLine()
