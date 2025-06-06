@@ -1,6 +1,7 @@
 using Audio.Managers;
 using Cysharp.Threading.Tasks;
 using GUI;
+using Input;
 using Managers;
 using UnityEngine;
 using VContainer;
@@ -11,7 +12,7 @@ public class Bootstrap : IStartable
     [Inject] private GuiManager _guiManager;
     [Inject] private IGameManager _gameManager;
     [Inject] private IAudioManager _audioManager;
-    
+    [Inject] private IInputManager _inputManager;
     public void Start()
     {
         Debug.Log("Bootstrap started");
@@ -22,7 +23,9 @@ public class Bootstrap : IStartable
     {
         Prepare();
         await _guiManager.Initialize().ContinueWith(() => 
-              _gameManager.Initialize());
+              _audioManager.Initialize().ContinueWith(() => 
+              _inputManager.Initialize().ContinueWith(() =>
+              _gameManager.Initialize())));
     }
 
     private void Prepare()

@@ -7,8 +7,8 @@ namespace GUI.Screens.Controllers
 {
     public class MainMenuScreenController : IScreenController
     {
-        private IScreenManager _screenManager;
         [Inject] private IPopupManager _popupManager;
+        private IScreenManager _screenManager;
         
         private MainMenuScreenView _view;
         public string ID => GuiScreenIds.MainMenuScreen;

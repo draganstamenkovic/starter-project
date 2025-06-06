@@ -1,4 +1,5 @@
 using Managers;
+using Player;
 using VContainer;
 
 namespace Registrators
@@ -8,6 +9,7 @@ namespace Registrators
         public static void Register(IContainerBuilder builder)
         {
             builder.Register<IGameManager, GameManager>(Lifetime.Singleton);
+            builder.Register<IPlayerController, PlayerController>(Lifetime.Singleton);
         }
     }
 }

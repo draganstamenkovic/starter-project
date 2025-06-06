@@ -1,4 +1,5 @@
 using GUI.Screens.Views;
+using Player;
 using UnityEngine;
 using VContainer;
 
@@ -6,6 +7,7 @@ namespace GUI.Screens.Controllers
 {
     public class PlayScreenController : IScreenController
     {
+        [Inject] private IPlayerController _playerController;
         private IScreenManager _screenManager;
         
         private PlayScreenView _view;
@@ -21,6 +23,14 @@ namespace GUI.Screens.Controllers
             _screenManager = screenManager;
            Debug.Log("Initializing Play Screen");
             _view.OnShow = RegisterListeners;
+            _view.OnShown = () =>
+            {
+                _playerController.SetActive(true);
+            };
+            _view.OnHide = () =>
+            {
+                _playerController.SetActive(false);
+            };
             _view.OnHidden = RemoveListeners;
         }
 

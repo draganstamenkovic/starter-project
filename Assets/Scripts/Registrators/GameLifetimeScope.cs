@@ -8,6 +8,8 @@ public class GameLifetimeScope : LifetimeScope
     {
         ConfigsRegistrator.Register(builder);
         GameRegistrator.Register(builder);
+        DataRegistrator.Register(builder);
+        InputRegistrator.Register(builder);
         GuiRegistrator.Register(builder);
         AudioRegistrator.Register(builder);
         AnalyticsRegistrator.Register(builder);

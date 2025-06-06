@@ -5,6 +5,7 @@ namespace Player
     public interface IPlayerController
     {
         UniTask Initialize();
-        void SetPlayerView(PlayerView playerView);
+        void Move(MovementDirection direction);
+        void SetActive(bool active);
     }
 }
