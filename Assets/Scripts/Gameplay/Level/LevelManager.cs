@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Data;
 
-namespace Gameplay
+namespace Gameplay.Level
 {
     public class LevelManager : ILevelManager
     {
-        public List<Level> Levels { get; }
+        public List<LevelData> Levels { get; }
         public UniTask Initialize()
         {
             throw new System.NotImplementedException();
@@ -17,7 +17,7 @@ namespace Gameplay
             throw new System.NotImplementedException();
         }
 
-        public Level GetCurrentLevel()
+        public LevelData GetCurrentLevel()
         {
             throw new System.NotImplementedException();
         }

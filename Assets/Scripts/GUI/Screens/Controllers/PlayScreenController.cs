@@ -1,5 +1,5 @@
+using Gameplay.Player;
 using GUI.Screens.Views;
-using Player;
 using UnityEngine;
 using VContainer;
 

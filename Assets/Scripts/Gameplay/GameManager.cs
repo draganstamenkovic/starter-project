@@ -1,11 +1,11 @@
 using Cysharp.Threading.Tasks;
 using Data.Load;
+using Gameplay.Player;
 using GUI.Screens;
-using Player;
 using UnityEngine;
 using VContainer;
 
-namespace Managers
+namespace Gameplay
 {
     public class GameManager : IGameManager
     {

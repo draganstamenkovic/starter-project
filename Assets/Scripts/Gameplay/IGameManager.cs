@@ -1,6 +1,6 @@
 using Cysharp.Threading.Tasks;
 
-namespace Managers
+namespace Gameplay
 {
     public interface IGameManager
     {

@@ -1,5 +1,5 @@
-using Managers;
-using Player;
+using Gameplay;
+using Gameplay.Player;
 using VContainer;
 
 namespace Registrators

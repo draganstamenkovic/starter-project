@@ -1,4 +1,4 @@
-namespace Player
+namespace Gameplay.Player
 {
     public enum MovementDirection
     {

@@ -1,6 +1,6 @@
 using Cysharp.Threading.Tasks;
 
-namespace Player
+namespace Gameplay.Player
 {
     public interface IPlayerController
     {
