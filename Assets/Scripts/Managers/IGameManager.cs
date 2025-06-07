@@ -4,7 +4,11 @@ namespace Managers
 {
     public interface IGameManager
     {
-        UniTask StartGame();
+        UniTask ShowMainMenu();
         UniTask Initialize();
+        void Play();
+        void Pause();
+        void Resume();
+        void Quit();
     }
 }

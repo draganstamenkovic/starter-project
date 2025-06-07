@@ -20,7 +20,6 @@ public class PlayerController : IPlayerController
 
     public async UniTask Initialize()
     { 
-        CreatePlayer();
         await UniTask.CompletedTask;
     }
 
@@ -38,12 +37,16 @@ public class PlayerController : IPlayerController
         _playerView.Rigidbody.linearVelocity = velocity;
     }
 
+    private void ResetPosition()
+    {
+        
+    }
+
     private void CreatePlayer()
     {
         var player = _objectResolver.Instantiate(_playerConfig.PlayerPrefab);
         var playerView = player.GetComponent<PlayerView>();
         _playerView = playerView;
-        SetActive(false);
     }
 
     public void SetActive(bool active)

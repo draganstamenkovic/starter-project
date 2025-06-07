@@ -65,7 +65,7 @@ namespace GUI.Screens
             });
         }
 
-        public async UniTask HideScreen(string screenName, TransitionDirection direction)
+        public async UniTask HideScreen(string screenName, TransitionDirection direction =  TransitionDirection.Forward)
         {
             if (!_spawnedScreens.TryGetValue(screenName, out var screen))
             {
