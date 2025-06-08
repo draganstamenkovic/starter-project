@@ -7,7 +7,7 @@ namespace Gameplay.Level
     public interface ILevelManager
     {
         List<LevelData> Levels { get; }
-        UniTask Initialize();
+        UniTask Initialize(List<string> unlockedLevelsIds);
         string GetCurrentLevelId();
         LevelData GetCurrentLevel();
     }

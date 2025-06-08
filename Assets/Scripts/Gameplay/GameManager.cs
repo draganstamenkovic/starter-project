@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using Data.Load;
+using Gameplay.Level;
 using Gameplay.Player;
 using GUI.Screens;
 using UnityEngine;
@@ -12,11 +13,14 @@ namespace Gameplay
         [Inject] private readonly IScreenManager _screenManager;
         [Inject] private readonly ILoadManager _loadManager;
         [Inject] private readonly IPlayerController _playerController;
+        [Inject] private readonly ILevelManager _levelManager;
 
         public async UniTask Initialize()
         {
-            await _loadManager.Initialize()
-                .ContinueWith(ShowMainMenu);
+            await _loadManager.Initialize().ContinueWith(ShowMainMenu);
+            //await _levelManager.Initialize(data);
+
+//                .ContinueWith(ShowMainMenu);
         }
 
         public void Play()

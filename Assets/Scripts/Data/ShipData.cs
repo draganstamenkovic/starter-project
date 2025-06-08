@@ -7,5 +7,6 @@ namespace Data
     {
         public string Id;
         public Sprite Sprite;
+        public bool Unlocked;
     }
 }

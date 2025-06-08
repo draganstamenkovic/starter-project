@@ -1,15 +1,16 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Data
 {
-    [Serializable]
-    public class GameData
+    [CreateAssetMenu(fileName = "GameData", menuName = "Game/Data/GameData")]
+    public class GameData : ScriptableObject
     {
-        public List<string> UnlockedLevelsIds;
-        public List<string> UnlockedShipsIds;
-        public string SelectedShipId;
-        public string CurrentLevelId;
+        public List<LevelData> AllLevels;
+        public List<ShipData> AllShips;
+        public ShipData ActiveShip;
+        public LevelData CurrentLevel;
         public int PlayerHighScore;
     }
 }

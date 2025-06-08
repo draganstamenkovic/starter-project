@@ -1,4 +1,5 @@
 using Gameplay;
+using Gameplay.Level;
 using Gameplay.Player;
 using VContainer;
 
@@ -10,6 +11,7 @@ namespace Registrators
         {
             builder.Register<IGameManager, GameManager>(Lifetime.Singleton);
             builder.Register<IPlayerController, PlayerController>(Lifetime.Singleton);
+            builder.Register<ILevelManager, LevelManager>(Lifetime.Singleton);
         }
     }
 }

@@ -7,9 +7,15 @@ namespace Gameplay.Level
     public class LevelManager : ILevelManager
     {
         public List<LevelData> Levels { get; }
-        public UniTask Initialize()
+        private Dictionary<string, LevelData> _unlockedLevels = new();
+        public UniTask Initialize(List<string> unlockedLevelsIds)
         {
-            throw new System.NotImplementedException();
+            foreach (var unlockedLevelId in unlockedLevelsIds)
+            {
+                
+            }
+
+            return UniTask.CompletedTask;
         }
 
         public string GetCurrentLevelId()
