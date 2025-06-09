@@ -4,7 +4,6 @@ namespace Data.Save
 {
     public interface ISaveManager
     {
-        UniTask Initialize();
         UniTask Save();
     }
 }

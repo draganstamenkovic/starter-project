@@ -9,14 +9,11 @@ namespace Data.Save
     {
         [Inject] private readonly GameData _gameData;
         private SerializableGameData _tempGameData;
-        public async UniTask Initialize()
-        {
-            PopulateData();
-            await Save();
-        }
 
         public async UniTask Save()
         {
+            PopulateData();
+            
             Debug.Log("Data saved");
             var savePath = DataManager.DataPath;
             string json = JsonUtility.ToJson(_tempGameData, prettyPrint: true);

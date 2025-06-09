@@ -1,3 +1,4 @@
+using Data.Save;
 using GUI.Popups;
 using GUI.Screens.Views;
 using UnityEngine;
@@ -8,6 +9,7 @@ namespace GUI.Screens.Controllers
     public class MainMenuScreenController : IScreenController
     {
         [Inject] private IPopupManager _popupManager;
+        [Inject] private ISaveManager _saveManager;
         private IScreenManager _screenManager;
         
         private MainMenuScreenView _view;
@@ -35,6 +37,12 @@ namespace GUI.Screens.Controllers
         {
             _view.PlayButton.onClick.AddListener(OnPlayButtonClick);
             _view.SettingsButton.onClick.AddListener(OnSettingsButtonClick);
+            _view.SaveButton.onClick.AddListener(OnSaveButtonClick);
+        }
+
+        private void OnSaveButtonClick()
+        {
+            _saveManager.Save();
         }
 
         private void OnSettingsButtonClick()
@@ -51,6 +59,7 @@ namespace GUI.Screens.Controllers
         {
             _view.PlayButton.onClick.RemoveListener(OnPlayButtonClick);
             _view.SettingsButton.onClick.RemoveListener(OnSettingsButtonClick);
+            _view.SaveButton.onClick.RemoveListener(OnSaveButtonClick);
         }
     }
 }

@@ -2,6 +2,7 @@ using System.IO;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using VContainer;
+using ZLinq;
 
 namespace Data.Load
 {
@@ -39,10 +40,13 @@ namespace Data.Load
 
             //TODO: Refactor this
             _gameData.PlayerHighScore = _tempGameData.PlayerHighScore;
+            
             var activeShip = _gameData.AllShips.Find(ship => ship.Id.Equals(_tempGameData.ActiveShipId));
             _gameData.ActiveShip = activeShip;
+            
             var currentLevel = _gameData.AllLevels.Find(level => level.Id.Equals(_tempGameData.CurrentLevelId));
             _gameData.CurrentLevel = currentLevel;
+            
             foreach (var unlockedLevelId in _tempGameData.UnlockedLevelsIds)
             {
                 _gameData.AllLevels.Find(x => 
