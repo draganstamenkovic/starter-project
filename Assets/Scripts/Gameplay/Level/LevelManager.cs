@@ -1,31 +1,30 @@
-using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Data;
+using VContainer;
 
 namespace Gameplay.Level
 {
     public class LevelManager : ILevelManager
     {
-        public List<LevelData> Levels { get; }
-        private Dictionary<string, LevelData> _unlockedLevels = new();
-        public UniTask Initialize(List<string> unlockedLevelsIds)
+        [Inject] private readonly GameData _gameData;
+        public UniTask Initialize()
         {
-            foreach (var unlockedLevelId in unlockedLevelsIds)
-            {
-                
-            }
 
             return UniTask.CompletedTask;
         }
 
-        public string GetCurrentLevelId()
+        public void LoadLevel(string id)
         {
-            throw new System.NotImplementedException();
+            if (string.IsNullOrEmpty(id))
+                return;
+            _gameData.CurrentLevel = _gameData.AllLevels.Find(x => x.Id == id);
         }
 
-        public LevelData GetCurrentLevel()
-        {
-            throw new System.NotImplementedException();
+        public void LoadNextLevel()
+        { 
+            var currentLevelIndex = _gameData.AllLevels.FindIndex(level => level.Id == _gameData.CurrentLevel.Id);
+            _gameData.CurrentLevel = _gameData.AllLevels[currentLevelIndex+1];
+            
         }
     }
 }
