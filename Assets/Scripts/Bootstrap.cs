@@ -22,10 +22,10 @@ public class Bootstrap : IStartable
     private async UniTask InitializeGame()
     {
         Prepare();
-        await _guiManager.Initialize().ContinueWith(() => 
+        await _inputManager.Initialize().ContinueWith(() => 
               _audioManager.Initialize().ContinueWith(() => 
-              _inputManager.Initialize().ContinueWith(() =>
-              _gameManager.Initialize())));
+              _gameManager.Initialize().ContinueWith(() =>
+              _guiManager.Initialize())));
     }
 
     private void Prepare()

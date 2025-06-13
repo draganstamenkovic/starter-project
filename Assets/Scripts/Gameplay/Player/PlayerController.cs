@@ -21,6 +21,8 @@ namespace Gameplay.Player
 
         public async UniTask Initialize()
         {
+            //CreatePlayer();
+            //SetActive(false);
             await UniTask.CompletedTask;
         }
 
@@ -38,9 +40,9 @@ namespace Gameplay.Player
             _playerView.Rigidbody.linearVelocity = velocity;
         }
 
-        private void ResetPosition()
+        private void Reset()
         {
-
+            SetActive(false);
         }
 
         private void CreatePlayer()
@@ -48,6 +50,7 @@ namespace Gameplay.Player
             var player = _objectResolver.Instantiate(_playerConfig.PlayerPrefab);
             var playerView = player.GetComponent<PlayerView>();
             _playerView = playerView;
+            SetActive(false);
         }
 
         public void SetActive(bool active)
