@@ -1,4 +1,4 @@
-using Gameplay.Player;
+using Gameplay;
 using GUI.Screens.Views;
 using UnityEngine;
 using VContainer;
@@ -7,7 +7,7 @@ namespace GUI.Screens.Controllers
 {
     public class PlayScreenController : IScreenController
     {
-        [Inject] private IPlayerController _playerController;
+        [Inject] private IGameManager _gameManager;
         private IScreenManager _screenManager;
         
         private PlayScreenView _view;
@@ -25,11 +25,11 @@ namespace GUI.Screens.Controllers
             _view.OnShow = RegisterListeners;
             _view.OnShown = () =>
             {
-                _playerController.SetActive(true);
+                _gameManager.OnPlay?.Invoke();
             };
             _view.OnHide = () =>
             {
-                _playerController.SetActive(false);
+                _gameManager.OnStop?.Invoke();
             };
             _view.OnHidden = RemoveListeners;
         }
