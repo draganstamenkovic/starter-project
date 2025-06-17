@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b6956f680b749bdb892ef36656f31b0, type: 3}
   m_Name: ShipOne
   m_EditorClassIdentifier: 
-  Id: 1
+  Id: ShipOne
   Sprite: {fileID: 21300000, guid: 9c0e83eaf7861f548a7212c5652f243a, type: 3}
+  Unlocked: 0

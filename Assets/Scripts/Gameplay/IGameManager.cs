@@ -10,9 +10,6 @@ namespace Gameplay
         void Pause();
         void Resume();
         void Quit();
-        Action OnPause { get; set; }
-        Action OnResume { get; set; }
-        Action OnPlay { get; set; }
-        Action OnStop { get; set; }
+        void Stop();
     }
 }

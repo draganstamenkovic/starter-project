@@ -1,12 +1,15 @@
-using Cysharp.Threading.Tasks;
-
 namespace Input
 {
     public class InputManager : IInputManager
     {
-        public async UniTask Initialize()
+        
+        public void Initialize()
         {
-            await UniTask.CompletedTask;
+        }
+
+        public void SetActive(bool value)
+        {
+            
         }
     }
 }

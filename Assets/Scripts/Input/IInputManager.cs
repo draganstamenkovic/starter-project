@@ -4,6 +4,7 @@ namespace Input
 {
     public interface IInputManager
     {
-        UniTask Initialize();
+        void Initialize();
+        void SetActive(bool value);
     }
 }

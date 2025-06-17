@@ -9,12 +9,11 @@ namespace Data.Load
     {
         [Inject] private GameData _gameData;
         private SerializableGameData _tempGameData;
-        public async UniTask Initialize()
+        public void Initialize()
         {
             Debug.Log("LoadManager Initialized!");
             Load();
             FillData();
-            await UniTask.CompletedTask;
         }
 
         public void Load()

@@ -4,7 +4,7 @@ namespace Data.Load
 {
     public interface ILoadManager
     {
-        UniTask Initialize();
+        void Initialize();
         void Load();
     }
 }

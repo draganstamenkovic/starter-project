@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d330c8882d654eb5bbe8c9cced414c3f, type: 3}
   m_Name: PlayerConfig
   m_EditorClassIdentifier: 
-  PlayerPrefab: {fileID: 5318702897288678645, guid: c6c22c0c9336d6d49b6a4b37a01c23d7, type: 3}
+  shipPrefabs:
+  - Id: ShipOne
+    Prefab: {fileID: 5318702897288678645, guid: c6c22c0c9336d6d49b6a4b37a01c23d7, type: 3}
+  startPosition: {x: 0, y: 0, z: 0}
   speed: 5

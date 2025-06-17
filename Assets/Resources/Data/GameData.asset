@@ -19,5 +19,5 @@ MonoBehaviour:
   AllShips:
   - {fileID: 11400000, guid: e040b2fd2c6117a4f843571257ad2b9c, type: 2}
   ActiveShip: {fileID: 11400000, guid: e040b2fd2c6117a4f843571257ad2b9c, type: 2}
-  CurrentLevel: {fileID: 11400000, guid: 62f05dea7b0f5c542a19a0d44cba4226, type: 2}
-  PlayerHighScore: 0
+  CurrentLevel: {fileID: 11400000, guid: 61c999d166c4041499f6b91e29086d28, type: 2}
+  PlayerHighScore: 100

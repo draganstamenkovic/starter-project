@@ -25,11 +25,11 @@ namespace GUI.Screens.Controllers
             _view.OnShow = RegisterListeners;
             _view.OnShown = () =>
             {
-                _gameManager.OnPlay?.Invoke();
+                _gameManager.Play();
             };
             _view.OnHide = () =>
             {
-                _gameManager.OnStop?.Invoke();
+                _gameManager.Stop();
             };
             _view.OnHidden = RemoveListeners;
         }

@@ -1,6 +1,6 @@
 using System;
 using Configs;
-using Cysharp.Threading.Tasks;
+using Data;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -10,6 +10,7 @@ namespace Gameplay.Player
     public class PlayerController : IPlayerController
     {
         [Inject] private PlayerConfig _playerConfig;
+        [Inject] private GameData _gameData;
         private readonly IObjectResolver _objectResolver;
 
         private PlayerView _playerView;
@@ -18,12 +19,15 @@ namespace Gameplay.Player
         {
             _objectResolver = objectResolver;
         }
-
-        public async UniTask Initialize()
+        
+        public void Initialize(Transform parent)
         {
-            //CreatePlayer();
-            //SetActive(false);
-            await UniTask.CompletedTask;
+            var player = _objectResolver.Instantiate(_playerConfig
+                .GetActiveShipPrefab(_gameData.ActiveShip.Id), parent);
+            
+            _playerView = player.GetComponent<PlayerView>();
+            
+            SetActive(false);
         }
 
         public void Move(MovementDirection direction)
@@ -39,23 +43,20 @@ namespace Gameplay.Player
 
             _playerView.Rigidbody.linearVelocity = velocity;
         }
-
-        private void Reset()
-        {
-            SetActive(false);
-        }
-
-        private void CreatePlayer()
-        {
-            var player = _objectResolver.Instantiate(_playerConfig.PlayerPrefab);
-            var playerView = player.GetComponent<PlayerView>();
-            _playerView = playerView;
-            SetActive(false);
-        }
-
+        
         public void SetActive(bool active)
         {
             _playerView.gameObject.SetActive(active);
+            if (active)
+            {
+                _playerView.Rigidbody.bodyType = RigidbodyType2D.Dynamic;
+            }
+            else
+            {
+                _playerView.Rigidbody.bodyType = RigidbodyType2D.Kinematic;
+                _playerView.Rigidbody.linearVelocity = Vector2.zero;
+                _playerView.transform.localPosition = _playerConfig.startPosition;
+            }
         }
     }
 }
