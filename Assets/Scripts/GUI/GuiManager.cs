@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using GUI.Popups;
 using GUI.Popups.Builder;
 using GUI.Screens;
+using Input;
 using UnityEngine;
 using VContainer;
 
@@ -10,9 +11,9 @@ namespace GUI
 {
     public class GuiManager : MonoBehaviour
     {
-        [Inject] private IScreenManager _screenManager;
-        [Inject] private IPopupManager _popupManager;
-        [Inject] private IPopupBuilder _popupBuilder;
+        [Inject] private readonly IScreenManager _screenManager;
+        [Inject] private readonly IPopupManager _popupManager;
+        [Inject] private readonly IPopupBuilder _popupBuilder;
         [Inject] private GUIConfig _guiConfig;
 
         [SerializeField] private Transform _screensContainer;

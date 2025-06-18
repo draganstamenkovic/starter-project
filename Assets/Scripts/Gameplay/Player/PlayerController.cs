@@ -43,7 +43,12 @@ namespace Gameplay.Player
 
             _playerView.Rigidbody.linearVelocity = velocity;
         }
-        
+
+        public void Move(Vector2 velocity)
+        {
+            _playerView.Rigidbody.linearVelocity = velocity * _playerConfig.speed;
+        }
+
         public void SetActive(bool active)
         {
             _playerView.gameObject.SetActive(active);
