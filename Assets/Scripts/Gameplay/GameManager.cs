@@ -10,10 +10,10 @@ namespace Gameplay
 {
     public class GameManager : IGameManager
     {
+        [Inject] private readonly InputManager _inputManager;
         [Inject] private readonly ILoadManager _loadManager;
         [Inject] private readonly IPlayerController _playerController;
         [Inject] private readonly ILevelManager _levelManager;
-        [Inject] private readonly IInputManager _inputManager;
 
         private Transform _gameplayParent;
         private bool _isPaused;
@@ -23,7 +23,7 @@ namespace Gameplay
             CreateGameplayParent();
             _loadManager.Initialize();
             _playerController.Initialize(_gameplayParent);
-            _inputManager.Initialize();
+            _inputManager.Initialize(_playerController);
             _levelManager.Initialize();
             await UniTask.CompletedTask;
         }
@@ -31,6 +31,7 @@ namespace Gameplay
         public void Play()
         {
             _playerController.SetActive(true);
+            _inputManager.SetActive(true);
         }
 
         public void Pause()
@@ -55,6 +56,7 @@ namespace Gameplay
                 _isPaused = false;
             }
             _playerController.SetActive(false);
+            _inputManager.SetActive(false);
             // Add cleanup logic here if needed
             // _inputManager.Stop();
             // _playerController.Stop();

@@ -1,5 +1,6 @@
 using Input;
 using VContainer;
+using VContainer.Unity;
 
 namespace Registrators
 {
@@ -7,7 +8,7 @@ namespace Registrators
     {
         public static void Register(IContainerBuilder builder)
         {
-            builder.Register<IInputManager, InputManager>(Lifetime.Singleton);
+            builder.RegisterComponentInHierarchy<InputManager>();
         }
     }
 }

@@ -12,7 +12,6 @@ public class Bootstrap : IStartable
     [Inject] private GuiManager _guiManager;
     [Inject] private IGameManager _gameManager;
     [Inject] private IAudioManager _audioManager;
-    [Inject] private IInputManager _inputManager;
     public void Start()
     {
         Debug.Log("Bootstrap started");
