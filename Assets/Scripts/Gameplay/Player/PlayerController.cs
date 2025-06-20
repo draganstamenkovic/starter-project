@@ -16,6 +16,14 @@ namespace Gameplay.Player
         private PlayerView _playerView;
         private Camera _camera;
 
+        private float _camHeight;
+        private float _camWidth;
+        private float _playerScaleX;
+        private float _minX;
+        private float _maxX;
+        private float _dampeningZone = 0.1f;
+        private Vector3 _camPosition;
+        private Vector3 _playerPosition;
         public PlayerController(IObjectResolver objectResolver)
         {
             _objectResolver = objectResolver;
@@ -67,52 +75,33 @@ namespace Gameplay.Player
                 _playerView.transform.localPosition = _playerConfig.startPosition;
             }
         }
-        
-        
-        //TODO: refactor this to store values at the Initialization rather on each update method
+
         Vector2 ApplyBoundaryDampening(Vector2 velocity)
         {
-            var pos = _playerView.transform.position;
+            _playerPosition = _playerView.transform.position;
     
             // Get camera bounds
-            var camHeight = _camera.orthographicSize;
-            var camWidth = camHeight * _camera.aspect;
-            var camPos = _camera.transform.position;
+            _camHeight = _camera.orthographicSize;
+            _camWidth = _camHeight * _camera.aspect;
+            _camPosition = _camera.transform.position;
 
-            var playerScaleX = _playerView.transform.localScale.x / 2;
+            _playerScaleX = _playerView.transform.localScale.x / 2;
 
-            var minX = camPos.x - camWidth + playerScaleX;
-            var maxX = camPos.x + camWidth - playerScaleX;
-            //var minY = camPos.y - camHeight;
-            //var maxY = camPos.y + camHeight;
-    
-            // Dampening distance from edge
-            var dampeningZone = 0.1f;
+            var minX = _camPosition.x - _camWidth + _playerScaleX;
+            var maxX = _camPosition.x + _camWidth - _playerScaleX;
     
             // Dampen X velocity near boundaries
-            if (pos.x <= minX + dampeningZone && velocity.x < 0)
+            if (_playerPosition.x <= minX + _dampeningZone && velocity.x < 0)
             {
-                var factor = (pos.x - minX) / dampeningZone;
+                var factor = (_playerPosition.x - minX) / _dampeningZone;
                 velocity.x *= Mathf.Clamp01(factor);
             }
-            else if (pos.x >= maxX - dampeningZone && velocity.x > 0)
+            else if (_playerPosition.x >= maxX - _dampeningZone && velocity.x > 0)
             {
-                var factor = (maxX - pos.x) / dampeningZone;
+                var factor = (maxX - _playerPosition.x) / _dampeningZone;
                 velocity.x *= Mathf.Clamp01(factor);
             }
-            /* Vertical boundary dampening not needed now
-                    // Dampen Y velocity near boundaries
-                    if (pos.y <= minY + dampeningZone && velocity.y < 0)
-                    {
-                        var factor = (pos.y - minY) / dampeningZone;
-                        velocity.y *= Mathf.Clamp01(factor);
-                    }
-                    else if (pos.y >= maxY - dampeningZone && velocity.y > 0)
-                    {
-                        var factor = (maxY - pos.y) / dampeningZone;
-                        velocity.y *= Mathf.Clamp01(factor);
-                    }
-            */
+
             return velocity;
         }
     }
