@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace GUI.Popups.Views
 {
-    public class ShopPopupView : PopupView
+    public class PromotionPopupView : PopupView
     {
         [SerializeField] private Button _buyButton;
         [SerializeField] private Button _closeButton;
@@ -12,7 +12,7 @@ namespace GUI.Popups.Views
         public override void Initialize()
         {
             base.Initialize();
-            ID = PopupIds.ShopPopup;
+            ID = PopupIds.PromotionPopup;
         }
 
     }

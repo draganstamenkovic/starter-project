@@ -13,6 +13,7 @@ namespace GUI.Screens.Controllers
         private IScreenManager _screenManager;
         
         private MainMenuScreenView _view;
+        private int _promotionPopupCounter;
         public string ID => GuiScreenIds.MainMenuScreen;
         public void SetView(IScreenView view)
         {
@@ -30,7 +31,11 @@ namespace GUI.Screens.Controllers
 
         private void ShowOffer()
         {
-            _popupManager.ShowPopupScreen(PopupIds.ShopPopup);
+            if (_promotionPopupCounter == 0)
+            {
+                _popupManager.ShowPopupScreen(PopupIds.PromotionPopup);
+                _promotionPopupCounter++;
+            }
         }
 
         private void RegisterListeners()

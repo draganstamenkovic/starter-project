@@ -3,15 +3,15 @@ using UnityEngine;
 
 namespace GUI.Popups.Controllers
 {
-    public class ShopPopupController : IPopupController
+    public class PromotionPopupController : IPopupController
     {
         private IPopupManager _popupManager;
-        private ShopPopupView _view;
-        public string ID => PopupIds.ShopPopup;
+        private PromotionPopupView _view;
+        public string ID => PopupIds.PromotionPopup;
 
         public void SetView(IPopupView view)
         {
-            _view = view as ShopPopupView;
+            _view = view as PromotionPopupView;
         }
 
         public void Initialize(IPopupManager popupManager)
@@ -38,7 +38,7 @@ namespace GUI.Popups.Controllers
 
         private void HidePopup()
         {
-            _popupManager.HidePopup(PopupIds.ShopPopup);
+            _popupManager.HidePopup(PopupIds.PromotionPopup);
         }
         private void OnBuyButtonClicked()
         {
