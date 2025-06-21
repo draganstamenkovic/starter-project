@@ -11,6 +11,7 @@ namespace Configs
         [SerializeField] private List<Ship> shipPrefabs;
         public Vector3 startPosition;
         public float speed = 5f;
+        public float offsetPositionY = 0.5f;
 
         public GameObject GetActiveShipPrefab(string shipId)
         {

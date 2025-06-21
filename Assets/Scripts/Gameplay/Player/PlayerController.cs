@@ -24,6 +24,7 @@ namespace Gameplay.Player
         private float _dampeningZone = 0.1f;
         private Vector3 _camPosition;
         private Vector3 _playerPosition;
+        private Vector3 _startPosition;
         public PlayerController(IObjectResolver objectResolver)
         {
             _objectResolver = objectResolver;
@@ -31,13 +32,18 @@ namespace Gameplay.Player
         
         public void Initialize(Transform parent)
         {
-            var player = _objectResolver.Instantiate(_playerConfig
-                .GetActiveShipPrefab(_gameData.ActiveShip.Id), parent);
-            
-            _playerView = player.GetComponent<PlayerView>();
             //TODO: Maybe create CameraManager cause it will needed for more advanced stuff
             _camera = Camera.main;
             
+            var player = _objectResolver.Instantiate(_playerConfig
+                .GetActiveShipPrefab(_gameData.ActiveShip.Id), parent);
+            
+            var positionY = -_camera.orthographicSize 
+                            + player.transform.localScale.y 
+                            + _playerConfig.offsetPositionY;
+            _startPosition = new Vector3(0,positionY,0);
+
+            _playerView = player.GetComponent<PlayerView>();
             SetActive(false);
         }
 
@@ -72,11 +78,11 @@ namespace Gameplay.Player
             {
                 _playerView.Rigidbody.bodyType = RigidbodyType2D.Kinematic;
                 _playerView.Rigidbody.linearVelocity = Vector2.zero;
-                _playerView.transform.localPosition = _playerConfig.startPosition;
+                _playerView.transform.localPosition = _startPosition;
             }
         }
 
-        Vector2 ApplyBoundaryDampening(Vector2 velocity)
+        private Vector2 ApplyBoundaryDampening(Vector2 velocity)
         {
             _playerPosition = _playerView.transform.position;
     
