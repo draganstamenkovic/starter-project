@@ -22,7 +22,6 @@ namespace GUI.Screens.Controllers
 
         public void Initialize(IScreenManager screenManager)
         {
-            Debug.Log("Initializing Main Menu Screen");
             _screenManager = screenManager;
             _view.OnShow = RegisterListeners;
             _view.OnShown = ShowOffer;

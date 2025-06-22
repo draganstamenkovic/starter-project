@@ -57,10 +57,6 @@ namespace Gameplay
             }
             _playerController.SetActive(false);
             _inputManager.SetActive(false);
-            // Add cleanup logic here if needed
-            // _inputManager.Stop();
-            // _playerController.Stop();
-            // _levelManager.Stop();
         }
 
         public void Quit()

@@ -11,7 +11,6 @@ namespace Audio.Managers
         private AudioSource _audioSource;
         public async UniTask Initialize()
         {
-            Debug.Log("Audio Manager initialized");
             var audioManager = new GameObject("_AudioManager_");
             audioManager.AddComponent<AudioSource>();
             _audioSource = audioManager.GetComponent<AudioSource>();

@@ -24,7 +24,6 @@ namespace GUI
         private bool _activeSpinner;
         public async UniTask Initialize()
         {
-            Debug.Log("GUIManager Initialized");
             SetSpinnerActive(true);
             await _screenManager.Initialize(_screensContainer, _screenBlocker)
                 .ContinueWith(() => _popupManager.Initialize(_popupsContainer, _screenBlocker))

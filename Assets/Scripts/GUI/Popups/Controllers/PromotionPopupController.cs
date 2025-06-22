@@ -16,7 +16,6 @@ namespace GUI.Popups.Controllers
 
         public void Initialize(IPopupManager popupManager)
         {
-           Debug.Log("Initializing Shop Popup");
             _popupManager = popupManager;
             _view.OnShow = RegisterListeners;
             _view.OnHidden = RemoveListeners;

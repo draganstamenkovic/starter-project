@@ -14,7 +14,6 @@ public class Bootstrap : IStartable
     [Inject] private IAudioManager _audioManager;
     public void Start()
     {
-        Debug.Log("Bootstrap started");
         InitializeGame().Forget();
     }
 
