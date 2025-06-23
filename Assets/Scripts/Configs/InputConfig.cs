@@ -6,6 +6,7 @@ namespace Configs
     public class InputConfig : ScriptableObject
     {
         public RectTransform joystickPrefab;
+        public RectTransform fireButtonPrefab;
         public float joystickSensitivity;
     }
 }

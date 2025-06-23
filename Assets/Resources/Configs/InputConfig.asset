@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: InputConfig
   m_EditorClassIdentifier: 
   joystickPrefab: {fileID: 3881087803549984436, guid: ec536a7718376554185e4a856d5ae230, type: 3}
+  fireButtonPrefab: {fileID: 2537159672811983191, guid: ec6611e22ca50ad43a967d607f1376da, type: 3}
   joystickSensitivity: 0

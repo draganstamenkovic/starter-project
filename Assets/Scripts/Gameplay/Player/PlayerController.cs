@@ -67,6 +67,11 @@ namespace Gameplay.Player
             _playerView.Rigidbody.linearVelocity = velocity;
         }
 
+        public void Fire()
+        {
+            Debug.Log("Fire bullet");
+        }
+
         public void SetActive(bool active)
         {
             _playerView.gameObject.SetActive(active);
