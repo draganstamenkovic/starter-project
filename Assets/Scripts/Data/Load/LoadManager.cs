@@ -20,8 +20,10 @@ namespace Data.Load
         {
             Debug.Log("Load data!");
 
-            if (!File.Exists(DataManager.DataPath)) 
+            if (!File.Exists(DataManager.DataPath))
+            {
                 _tempGameData = new SerializableGameData();
+            }
             else
             {
                 var json = File.ReadAllText(DataManager.DataPath);
@@ -31,19 +33,17 @@ namespace Data.Load
 
         private void FillData()
         {
-            foreach (var level in _gameData.AllLevels)
-            {
-                Debug.Log(level.Id);
-            }
-
             //TODO: Refactor this
             _gameData.PlayerHighScore = _tempGameData.PlayerHighScore;
             
             var activeShip = _gameData.AllShips.Find(ship => ship.Id.Equals(_tempGameData.ActiveShipId));
-            _gameData.ActiveShip = activeShip;
+            _gameData.ActiveShip = activeShip != null 
+                ? activeShip : _gameData.AllShips[0];
             
             var currentLevel = _gameData.AllLevels.Find(level => level.Id.Equals(_tempGameData.CurrentLevelId));
-            _gameData.CurrentLevel = currentLevel;
+            if(currentLevel != null)
+                _gameData.CurrentLevel = currentLevel != null 
+                    ? currentLevel : _gameData.AllLevels[0];
             
             foreach (var unlockedLevelId in _tempGameData.UnlockedLevelsIds)
             {
