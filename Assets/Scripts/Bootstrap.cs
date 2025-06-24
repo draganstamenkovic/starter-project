@@ -27,10 +27,13 @@ public class Bootstrap : IStartable
 
     private void Prepare()
     {
+        Application.targetFrameRate = 60;
+        /*
 #if UNITY_EDITOR
         Debug.unityLogger.logEnabled = true;
         #else
-        Debug.logger.logEnabled = false;
+        Debug.unityLogger.logEnabled = false;
 #endif
+*/
     }
 }
