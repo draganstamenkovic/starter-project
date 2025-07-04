@@ -25,13 +25,11 @@ namespace GUI
         public async UniTask Initialize()
         {
             SetSpinnerActive(true);
-            await _screenManager.Initialize(_screensContainer, _screenBlocker)
-                .ContinueWith(() => _popupManager.Initialize(_popupsContainer, _screenBlocker))
-                .ContinueWith(() => SetSpinnerActive(false))
-                .ContinueWith(() =>
-                {
-                    _screenManager.ShowScreen(GuiScreenIds.MainMenuScreen);
-                });
+            _screenManager.Initialize(_screensContainer, _screenBlocker);
+            _popupManager.Initialize(_popupsContainer, _screenBlocker);
+            
+            await _screenManager.ShowScreen(GuiScreenIds.MainMenuScreen)
+                .ContinueWith(() => SetSpinnerActive(false));
         }
 
         public void SetSpinnerActive(bool active)

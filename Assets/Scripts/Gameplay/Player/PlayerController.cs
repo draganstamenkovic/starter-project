@@ -35,7 +35,6 @@ namespace Gameplay.Player
         
         public void Initialize(Transform gameplayParent)
         {
-            //TODO: Maybe create CameraManager cause it will needed for more advanced stuff
             _camera = _cameraManager.GetMainCamera();
             
             var player = _objectResolver.Instantiate(_playerConfig

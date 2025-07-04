@@ -30,7 +30,7 @@ namespace GUI.Popups
             _objectResolver = resolver;
         }
 
-        public async UniTask Initialize(Transform parent, GameObject screenBlocker)
+        public void Initialize(Transform parent, GameObject screenBlocker)
         {
             _popupParent = parent;
             _screenBlocker = screenBlocker;
@@ -42,8 +42,6 @@ namespace GUI.Popups
                     _popups.Add(popup.Name, popup.PopupPrefab);
                 }
             }
-
-            await UniTask.CompletedTask;
         }
 
         public void ShowConfirmationPopup(PopupData popupData, Action callback = null)

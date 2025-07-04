@@ -28,7 +28,7 @@ namespace GUI.Screens
             _objectResolver = objectResolver;
         }
 
-        public async UniTask Initialize(Transform parent, GameObject screenBlocker)
+        public void Initialize(Transform parent, GameObject screenBlocker)
         {
             _screenParent = parent;
             _screenBlocker = screenBlocker;
@@ -40,7 +40,6 @@ namespace GUI.Screens
                     _screens.Add(screen.Name, screen.Screen);
                 }
             }
-            await UniTask.CompletedTask;
         }
 
         public async UniTask ShowScreen(string screenName, TransitionDirection direction =  TransitionDirection.Center)
