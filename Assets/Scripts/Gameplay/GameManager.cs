@@ -1,3 +1,4 @@
+using Cameras;
 using Cysharp.Threading.Tasks;
 using Data.Load;
 using Gameplay.Level;
@@ -14,6 +15,7 @@ namespace Gameplay
         [Inject] private readonly ILoadManager _loadManager;
         [Inject] private readonly IPlayerController _playerController;
         [Inject] private readonly ILevelManager _levelManager;
+        [Inject] private readonly ICameraManager _cameraManager;
 
         private Transform _gameplayParent;
         private bool _isPaused;
@@ -21,10 +23,12 @@ namespace Gameplay
         public async UniTask Initialize()
         {
             CreateGameplayParent();
+            _cameraManager.Initialize();
             _loadManager.Initialize();
             _playerController.Initialize(_gameplayParent);
             _inputManager.Initialize(_playerController);
             _levelManager.Initialize();
+            CreateGameBounds();
             await UniTask.CompletedTask;
         }
 
@@ -72,6 +76,21 @@ namespace Gameplay
         {
             var gameplayObj = new GameObject("_Gameplay_");
             _gameplayParent = gameplayObj.transform;
+        }
+
+        private void CreateGameBounds()
+        {
+            var bounds = new GameObject("Bounds");
+            bounds.transform.SetParent(_gameplayParent);
+            
+            var camera = _cameraManager.GetMainCamera();
+            
+            var topBound = new GameObject("Top");
+            topBound.transform.SetParent(bounds.transform);
+            topBound.transform.localScale = new Vector3(10, 0.1f, 0.1f);
+            topBound.transform.position = new Vector3(0, camera.orthographicSize + 1, 0);
+            topBound.AddComponent<BoxCollider2D>();
+            topBound.gameObject.layer = LayerMask.NameToLayer(LayerIds.Border);
         }
     }
 }

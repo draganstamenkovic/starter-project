@@ -1,4 +1,5 @@
 using System;
+using Cameras;
 using Configs;
 using Data;
 using UnityEngine;
@@ -11,6 +12,8 @@ namespace Gameplay.Player
     {
         [Inject] private PlayerConfig _playerConfig;
         [Inject] private GameData _gameData;
+        [Inject] private IProjectilePool _projectilePool;
+        [Inject] private ICameraManager _cameraManager;
         private readonly IObjectResolver _objectResolver;
 
         private PlayerView _playerView;
@@ -30,13 +33,13 @@ namespace Gameplay.Player
             _objectResolver = objectResolver;
         }
         
-        public void Initialize(Transform parent)
+        public void Initialize(Transform gameplayParent)
         {
             //TODO: Maybe create CameraManager cause it will needed for more advanced stuff
-            _camera = Camera.main;
+            _camera = _cameraManager.GetMainCamera();
             
             var player = _objectResolver.Instantiate(_playerConfig
-                .GetActiveShipPrefab(_gameData.ActiveShip.Id), parent);
+                .GetActiveShipPrefab(_gameData.ActiveShip.Id), gameplayParent);
             
             var positionY = -_camera.orthographicSize 
                             + player.transform.localScale.y 
@@ -45,6 +48,7 @@ namespace Gameplay.Player
 
             _playerView = player.GetComponent<PlayerView>();
             SetActive(false);
+            _projectilePool.Initialize(_objectResolver, gameplayParent);
         }
 
         public void Move(MovementDirection direction)
@@ -69,7 +73,7 @@ namespace Gameplay.Player
 
         public void Fire()
         {
-            Debug.Log("Fire bullet");
+            SpawnProjectile();
         }
 
         public void SetActive(bool active)
@@ -85,6 +89,20 @@ namespace Gameplay.Player
                 _playerView.Rigidbody.linearVelocity = Vector2.zero;
                 _playerView.transform.localPosition = _startPosition;
             }
+        }
+        
+        private void SpawnProjectile()
+        {
+            var projectile = _projectilePool.Pool.Get();
+            
+            projectile.Initialize(_playerView.CannonTransform.position,
+                         _playerView.CannonTransform.up,
+                                    OnProjectileCollision);
+        }
+
+        private void OnProjectileCollision(Projectile projectile)
+        {
+            _projectilePool.Pool.Release(projectile);
         }
 
         private Vector2 ApplyBoundaryDampening(Vector2 velocity)
