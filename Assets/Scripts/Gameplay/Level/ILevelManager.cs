@@ -6,7 +6,7 @@ namespace Gameplay.Level
 {
     public interface ILevelManager
     {
-        UniTask Initialize();
+        void Initialize();
         void LoadLevel(string id);
         void LoadNextLevel();
         

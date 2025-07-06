@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Configs;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
-using VContainer;
 using GUI.Popups.Builder;
 using GUI.Popups.Controllers;
 using GUI.Popups.Views;
 using GUI.Screens.Views;
+using UnityEngine;
+using VContainer;
 using VContainer.Unity;
 
 namespace GUI.Popups

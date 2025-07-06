@@ -1,39 +1,27 @@
+using System.Threading;
 using Audio.Managers;
 using Cysharp.Threading.Tasks;
 using Gameplay;
 using GUI;
-using Input;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-public class Bootstrap : IStartable
+public class Bootstrap : IAsyncStartable
 {
     [Inject] private GuiManager _guiManager;
     [Inject] private IGameManager _gameManager;
     [Inject] private IAudioManager _audioManager;
-    public void Start()
-    {
-        InitializeGame().Forget();
-    }
 
-    private async UniTask InitializeGame()
+    public UniTask StartAsync(CancellationToken cancellation = new CancellationToken())
     {
         Prepare();
-        await _audioManager.Initialize().ContinueWith(() => 
-              _gameManager.Initialize().ContinueWith(() =>
-              _guiManager.Initialize()));
+        _audioManager.Initialize();
+        _gameManager.Initialize();
+        return _guiManager.Initialize();
     }
-
     private void Prepare()
     {
         Application.targetFrameRate = 60;
-        /*
-#if UNITY_EDITOR
-        Debug.unityLogger.logEnabled = true;
-        #else
-        Debug.unityLogger.logEnabled = false;
-#endif
-*/
     }
 }

@@ -7,10 +7,8 @@ namespace Gameplay.Level
     public class LevelManager : ILevelManager
     {
         [Inject] private readonly GameData _gameData;
-        public UniTask Initialize()
+        public void Initialize()
         {
-
-            return UniTask.CompletedTask;
         }
 
         public void LoadLevel(string id)
