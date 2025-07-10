@@ -17,7 +17,6 @@ namespace Gameplay.Player
         private readonly IObjectResolver _objectResolver;
 
         private PlayerView _playerView;
-        private Camera _camera;
 
         private float _camHeight;
         private float _camWidth;
@@ -35,12 +34,10 @@ namespace Gameplay.Player
         
         public void Initialize(Transform gameplayParent)
         {
-            _camera = _cameraManager.GetMainCamera();
-            
             var player = _objectResolver.Instantiate(_playerConfig
                 .GetActiveShipPrefab(_gameData.ActiveShip.Id), gameplayParent);
-            
-            var positionY = -_camera.orthographicSize 
+
+            var positionY = -_cameraManager.GetOrthographicSize()
                             + player.transform.localScale.y 
                             + _playerConfig.offsetPositionY;
             _startPosition = new Vector3(0,positionY,0);
@@ -109,9 +106,8 @@ namespace Gameplay.Player
             _playerPosition = _playerView.transform.position;
     
             // Get camera bounds
-            _camHeight = _camera.orthographicSize;
-            _camWidth = _camHeight * _camera.aspect;
-            _camPosition = _camera.transform.position;
+            _camWidth = _cameraManager.GetCameraWidth();
+            _camPosition = _cameraManager.GetCameraPosition();
 
             _playerScaleX = _playerView.transform.localScale.x / 2;
 

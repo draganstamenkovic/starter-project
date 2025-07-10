@@ -9,6 +9,7 @@ namespace Configs
     public class ProjectileConfig : ScriptableObject
     {
         public List<ProjectileData> projectilePrefabs;
+        [Header("Projectile Pool Settings")]
         public int defaultCapacity = 10;
         public int maxCapacity = 10;
         public bool collectionChecks = true;

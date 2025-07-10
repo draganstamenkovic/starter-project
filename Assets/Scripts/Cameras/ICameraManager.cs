@@ -1,8 +1,14 @@
+using UnityEngine;
+
 namespace Cameras
 {
     public interface ICameraManager
     {
         void Initialize();
-        UnityEngine.Camera GetMainCamera();
+        Camera GetMainCamera();
+        Vector3 GetCameraPosition();
+        float GetCameraWidth();
+        float GetOrthographicSize();
+        float GetCameraAspect();
     }
 }

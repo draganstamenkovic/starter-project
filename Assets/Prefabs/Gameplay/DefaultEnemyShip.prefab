@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 3690545723705287614}
   - component: {fileID: 7242871633114141246}
   - component: {fileID: 3829202579144330748}
+  - component: {fileID: 3274440474411731927}
   m_Layer: 8
-  m_Name: EnemyShip
+  m_Name: DefaultEnemyShip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -134,3 +135,16 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.64, y: 0.64}
   m_EdgeRadius: 0
+--- !u!114 &3274440474411731927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474388765349619926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5369a7530e0ed4e488537216e6dc9ccc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _particleSystem: {fileID: 5901008696341369605, guid: 4e31eb2baa1b4d14fbd2362d34934856, type: 3}

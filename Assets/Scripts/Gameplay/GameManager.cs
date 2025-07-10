@@ -1,6 +1,7 @@
 using Cameras;
 using Cysharp.Threading.Tasks;
 using Data.Load;
+using Gameplay.Enemy;
 using Gameplay.Level;
 using Gameplay.Player;
 using Input;
@@ -12,11 +13,11 @@ namespace Gameplay
     public class GameManager : IGameManager
     {
         [Inject] private readonly InputManager _inputManager;
+        [Inject] private readonly ICameraManager _cameraManager;
         [Inject] private readonly ILoadManager _loadManager;
         [Inject] private readonly IPlayerController _playerController;
         [Inject] private readonly ILevelManager _levelManager;
-        [Inject] private readonly ICameraManager _cameraManager;
-
+        [Inject] private readonly IEnemiesManager _enemiesManager;
         private Transform _gameplayParent;
         private bool _isPaused;
 
@@ -28,6 +29,7 @@ namespace Gameplay
             _playerController.Initialize(_gameplayParent);
             _inputManager.Initialize(_playerController);
             _levelManager.Initialize();
+            _enemiesManager.Initialize(_gameplayParent);
             CreateGameBounds();
             await UniTask.CompletedTask;
         }

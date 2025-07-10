@@ -22,7 +22,6 @@ namespace Gameplay.Level
         { 
             var currentLevelIndex = _gameData.AllLevels.FindIndex(level => level.Id == _gameData.CurrentLevel.Id);
             _gameData.CurrentLevel = _gameData.AllLevels[currentLevelIndex+1];
-            
         }
     }
 }

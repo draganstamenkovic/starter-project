@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 270153f5856f43b08e31332db58d1731, type: 3}
-  m_Name: LevelTwo
+  m_Script: {fileID: 11500000, guid: 1975401e62754186966c16b0246bbb82, type: 3}
+  m_Name: EnemiesConfig
   m_EditorClassIdentifier: 
-  Id: 2
-  NumberOfEnemies: 2
-  Unlocked: 0
+  Enemies:
+  - Id: Default
+    Health: 1
+    Prefab: {fileID: 474388765349619926, guid: 8d58a86ec50355044ac6a5c496693d53, type: 3}

@@ -1,5 +1,6 @@
 using Cameras;
 using Gameplay;
+using Gameplay.Enemy;
 using Gameplay.Level;
 using Gameplay.Player;
 using VContainer;
@@ -15,6 +16,7 @@ namespace Registrators
             builder.Register<IPlayerController, PlayerController>(Lifetime.Singleton);
             builder.Register<IProjectilePool, ProjectilePool>(Lifetime.Singleton);
             builder.Register<ILevelManager, LevelManager>(Lifetime.Singleton);
+            builder.Register<IEnemiesManager, EnemiesManager>(Lifetime.Singleton);
         }
     }
 }

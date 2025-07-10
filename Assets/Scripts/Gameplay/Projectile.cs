@@ -8,13 +8,13 @@ namespace Gameplay
         [SerializeField] private float _speed;
 
         private Vector3 _direction;
-        public Action<Projectile> OnCollisionHit;
+        private Action<Projectile> _onCollisionHit;
 
         public void Initialize(Vector3 startingPosition,
                                 Vector3 direction, 
                                 Action<Projectile> onCollisionHit)
         {
-            OnCollisionHit = onCollisionHit;
+            _onCollisionHit = onCollisionHit;
             _direction = direction.normalized;
             transform.position = startingPosition;
         }
@@ -28,10 +28,10 @@ namespace Gameplay
             var enemyLayer =  LayerMask.NameToLayer(LayerIds.Enemy);
             var borderLayer =  LayerMask.NameToLayer(LayerIds.Border);
             
-            if (collision.gameObject.layer == enemyLayer ||
-                collision.gameObject.layer == borderLayer)
+            if ((collision.gameObject.layer == enemyLayer ||
+                collision.gameObject.layer == borderLayer) && gameObject.activeSelf)
             {
-                OnCollisionHit?.Invoke(this);
+                _onCollisionHit?.Invoke(this);
             }
         }
     }
