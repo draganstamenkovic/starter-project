@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deac0720445a48e8abb24469a2c406af, type: 3}
   m_Name: GUIConfig
   m_EditorClassIdentifier: 
-  loadingRotateSpeed: 0.5
+  loadingRotateSpeed: 1.5

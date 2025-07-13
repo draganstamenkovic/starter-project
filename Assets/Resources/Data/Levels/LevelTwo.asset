@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: LevelTwo
   m_EditorClassIdentifier: 
   Id: 2
-  NumberOfEnemies: 2
+  NumberOfEnemies: 3
   Unlocked: 0

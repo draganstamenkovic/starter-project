@@ -1,8 +1,10 @@
+using System;
 using Cameras;
 using Configs;
 using Data;
 using UnityEngine;
 using VContainer;
+using Object = UnityEngine.Object;
 
 namespace Gameplay.Enemy
 {
@@ -13,41 +15,75 @@ namespace Gameplay.Enemy
         [Inject] private readonly GameData _gameData;
         
         private Transform _gameplayParent;
-        private Transform _enemyGridTransform;
+        private GameObject _enemyGridObject;
+        private EnemyGrid _enemyGrid;
         
-        public void Initialize(Transform gameplayParent)
+        public Action OnEnemiesDestroyed {get; set;}
+        
+        private int _enemiesCount;
+        
+        public void Initialize(Transform gameplayParent, Action onEnemiesDestroyed)
         {
             _gameplayParent = gameplayParent;
-            SpawnEnemies(CreateGrid());
+            OnEnemiesDestroyed = onEnemiesDestroyed;
+            _enemyGrid = CreateGrid();
+        }
+
+        public void SetActive(bool isActive)
+        {
+            _enemyGridObject.SetActive(isActive);
+
+            if (isActive)
+            {
+                SpawnEnemies();
+            }
+            else
+            {
+                foreach (Transform enemy in _enemyGridObject.transform)
+                {
+                    Object.Destroy(enemy.gameObject);
+                }
+                _enemyGrid.ClearOccupiedCells();
+            }
         }
 
         private EnemyGrid CreateGrid()
         {
             var enemyGrid = new EnemyGrid(_cameraManager, _enemiesConfig);
 
-            _enemyGridTransform = new GameObject("EnemyGrid").transform;
-            _enemyGridTransform.SetParent(_gameplayParent);
+            _enemyGridObject = new GameObject("EnemyGrid");
+            _enemyGridObject.SetActive(false);
+            _enemyGridObject.transform.SetParent(_gameplayParent);
 
             return enemyGrid;
         }
 
-        private void SpawnEnemies(EnemyGrid enemyGrid)
+        private void SpawnEnemies()
         {
             var defaultEnemy = _enemiesConfig.GetEnemy(EnemyIds.Default);
             
             for (var enemyIndex = 0; enemyIndex < _gameData.CurrentLevel.NumberOfEnemies; enemyIndex++)
             {
-                var gridPos = enemyGrid.GetFreePosition();
+                var gridPos = _enemyGrid.GetFreePosition();
 
                 if (gridPos.x != -1 && gridPos.y != -1)
                 {
-                    if (enemyGrid.TryOccupyCell(gridPos.x, gridPos.y, out Vector3 spawnPosition))
+                    if (_enemyGrid.TryOccupyCell(gridPos.x, gridPos.y, out Vector3 spawnPosition))
                     {
-                        Debug.Log("Index: " + enemyIndex);
-                        var enemy = Object.Instantiate(defaultEnemy.Prefab, spawnPosition, Quaternion.identity,_enemyGridTransform);
-                        
+                        var enemy = Object.Instantiate(defaultEnemy.Prefab, spawnPosition, 
+                            Quaternion.identity,
+                            _enemyGridObject.transform);
+                        _enemiesCount++;
                         var enemyController = enemy.GetComponent<Enemy>();
-                        enemyController.Initialize(defaultEnemy);
+                        enemyController.Initialize(defaultEnemy, () =>
+                        {
+                            _enemiesCount--;
+                            if (_enemiesCount == 0)
+                            {
+                                // TODO: Show popup Successfully finished level load next level
+                                OnEnemiesDestroyed?.Invoke();
+                            }
+                        });
                     }
                     else
                     {

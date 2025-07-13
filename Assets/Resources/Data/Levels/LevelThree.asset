@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: LevelThree
   m_EditorClassIdentifier: 
   Id: 3
-  NumberOfEnemies: 15
+  NumberOfEnemies: 5
+  Unlocked: 0

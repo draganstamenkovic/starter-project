@@ -4,6 +4,9 @@ using Data.Load;
 using Gameplay.Enemy;
 using Gameplay.Level;
 using Gameplay.Player;
+using GUI.Popups;
+using GUI.Popups.Builder;
+using GUI.Screens;
 using Input;
 using UnityEngine;
 using VContainer;
@@ -18,9 +21,13 @@ namespace Gameplay
         [Inject] private readonly IPlayerController _playerController;
         [Inject] private readonly ILevelManager _levelManager;
         [Inject] private readonly IEnemiesManager _enemiesManager;
+        [Inject] private readonly IPopupManager _popupManager;
+        [Inject] private readonly IPopupBuilder _popupBuilder;
+        //[Inject] private readonly IScreenManager _screenManager;
+        
         private Transform _gameplayParent;
         private bool _isPaused;
-
+        
         public async UniTask Initialize()
         {
             CreateGameplayParent();
@@ -29,7 +36,7 @@ namespace Gameplay
             _playerController.Initialize(_gameplayParent);
             _inputManager.Initialize(_playerController);
             _levelManager.Initialize();
-            _enemiesManager.Initialize(_gameplayParent);
+            _enemiesManager.Initialize(_gameplayParent, LevelPassed);
             CreateGameBounds();
             await UniTask.CompletedTask;
         }
@@ -38,6 +45,7 @@ namespace Gameplay
         {
             _playerController.SetActive(true);
             _inputManager.SetActive(true);
+            _enemiesManager.SetActive(true);
         }
 
         public void Pause()
@@ -63,6 +71,30 @@ namespace Gameplay
             }
             _playerController.SetActive(false);
             _inputManager.SetActive(false);
+            _enemiesManager.SetActive(false);
+        }
+
+        private void LevelPassed()
+        {
+            Stop();
+            
+            // Dont use confirmation popup but rather use custom popup
+            // to avoid circular dependency with IScreenManager
+            _popupBuilder.Clear();
+            var popupData = _popupBuilder.Title("Success")
+                .Text("Level Completed!")
+                .AddButton("Continue", Color.green, () =>
+                {
+                    _popupManager.HidePopup(PopupIds.ConfirmationPopup);
+                    _levelManager.LoadNextLevel();
+                    Play();
+                })
+                .AddButton("Main Menu", Color.white, () =>
+                {
+                    //_screenManager.ShowScreen(GuiScreenIds.MainMenuScreen);
+                }).Build();
+            
+            _popupManager.ShowConfirmationPopup(popupData);
         }
 
         public void Quit()

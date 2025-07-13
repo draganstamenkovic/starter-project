@@ -80,5 +80,14 @@ namespace Gameplay.Enemy
             }
             return false;
         }
+
+        public void ClearOccupiedCells()
+        {
+            for (int x = 0; x < _width; x++)
+            {
+                for(int y = 0; y < _height; y++)
+                    _gridOccupied[x, y] = false;
+            }
+        }
     }
 }

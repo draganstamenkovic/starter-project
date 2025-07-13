@@ -1,6 +1,5 @@
 using Gameplay;
 using GUI.Screens.Views;
-using UnityEngine;
 using VContainer;
 
 namespace GUI.Screens.Controllers
@@ -12,7 +11,7 @@ namespace GUI.Screens.Controllers
         
         private PlayScreenView _view;
         public string ID => GuiScreenIds.PlayScreen;
-
+        
         public void SetView(IScreenView view)
         {
             _view = view as PlayScreenView;
@@ -21,7 +20,7 @@ namespace GUI.Screens.Controllers
         public void Initialize(IScreenManager screenManager)
         {
             _screenManager = screenManager;
-           Debug.Log("Initializing Play Screen");
+            
             _view.OnShow = RegisterListeners;
             _view.OnShown = () =>
             {

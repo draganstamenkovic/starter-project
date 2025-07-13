@@ -42,12 +42,12 @@ namespace GUI.Screens
             }
         }
 
-        public async UniTask ShowScreen(string screenName, TransitionDirection direction =  TransitionDirection.Center)
+        public async UniTask ShowScreen(string screenName)
         {
             _screenBlocker.SetActive(true);
             if (!string.IsNullOrEmpty(_currentScreen))
             {
-                await HideScreen(_currentScreen, TransitionDirection.Forward);
+                await HideScreen(_currentScreen);
             }
 
             _currentScreen = screenName;
@@ -57,14 +57,14 @@ namespace GUI.Screens
 
             view.OnShow?.Invoke();
 
-            await MoveScreen(screen, direction).ContinueWith(() =>
+            await MoveScreen(screen, TransitionDirection.Center).ContinueWith(() =>
             {
                 view.OnShown?.Invoke();
                 _screenBlocker.SetActive(false);
             });
         }
 
-        public async UniTask HideScreen(string screenName, TransitionDirection direction =  TransitionDirection.Forward)
+        public async UniTask HideScreen(string screenName)
         {
             if (!_spawnedScreens.TryGetValue(screenName, out var screen))
             {
@@ -75,7 +75,7 @@ namespace GUI.Screens
             var view = screen.GetComponent<IScreenView>();
             view.OnHide?.Invoke();
 
-            await MoveScreen(screen, direction).ContinueWith(() =>
+            await MoveScreen(screen, TransitionDirection.Forward).ContinueWith(() =>
             {
                 screen.gameObject.SetActive(false);
                 view.OnHidden?.Invoke();
