@@ -14,6 +14,7 @@ namespace GUI.Screens
     {
         [Inject] private GUIScreensConfig _guiScreensConfig;
         [Inject] private IEnumerable<IScreenController> _controllers;
+        [Inject] private IEventBus _eventBus;
 
         private readonly IObjectResolver _objectResolver;
         private readonly Dictionary<string, RectTransform> _screens = new();
@@ -32,6 +33,7 @@ namespace GUI.Screens
         {
             _screenParent = parent;
             _screenBlocker = screenBlocker;
+            _eventBus.Subscribe(EventType.ShowMainMenuScreen, ShowMainMenuScreen);
             
             foreach (var screen in _guiScreensConfig.Screens)
             {
@@ -41,6 +43,12 @@ namespace GUI.Screens
                 }
             }
         }
+
+        private void ShowMainMenuScreen()
+        {
+            ShowScreen(GuiScreenIds.MainMenuScreen);
+        }
+
 
         public async UniTask ShowScreen(string screenName)
         {

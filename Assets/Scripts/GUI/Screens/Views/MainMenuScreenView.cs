@@ -15,7 +15,6 @@ namespace GUI.Screens.Views
         public override void Initialize()
         {
             ID = GuiScreenIds.MainMenuScreen;
-            Debug.Log("Initialized View");
         }
     }
 }

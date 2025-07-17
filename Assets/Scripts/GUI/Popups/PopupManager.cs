@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Configs;
-using Cysharp.Threading.Tasks;
 using GUI.Popups.Builder;
 using GUI.Popups.Controllers;
 using GUI.Popups.Views;
-using GUI.Screens.Views;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -16,6 +14,7 @@ namespace GUI.Popups
     {
         [Inject] private readonly PopupsConfig _popupConfig;
         [Inject] private IEnumerable<IPopupController> _controllers;
+        [Inject] private readonly IEventBus _eventBus;
         
         private IObjectResolver _objectResolver;
         private readonly Dictionary<string, RectTransform> _popups = new();
@@ -34,7 +33,7 @@ namespace GUI.Popups
         {
             _popupParent = parent;
             _screenBlocker = screenBlocker;
-            
+            _eventBus.Subscribe(EventType.LevelCompleted, ShowLevelFinishedPopup);
             foreach (var popup in _popupConfig.Popups)
             {
                 if (!_popups.ContainsKey(popup.Name))
@@ -42,6 +41,11 @@ namespace GUI.Popups
                     _popups.Add(popup.Name, popup.PopupPrefab);
                 }
             }
+        }
+
+        private void ShowLevelFinishedPopup()
+        {
+            ShowPopupScreen(PopupIds.LevelFinishedPopup);
         }
 
         public void ShowConfirmationPopup(PopupData popupData, Action callback = null)

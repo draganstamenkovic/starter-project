@@ -13,12 +13,12 @@ public class Bootstrap : IAsyncStartable
     [Inject] private IGameManager _gameManager;
     [Inject] private IAudioManager _audioManager;
 
-    public UniTask StartAsync(CancellationToken cancellation = new CancellationToken())
+    public async UniTask StartAsync(CancellationToken cancellation = new CancellationToken())
     {
         Prepare();
-        _audioManager.Initialize();
-        _gameManager.Initialize();
-        return _guiManager.Initialize();
+        await _audioManager.Initialize();
+        await _gameManager.Initialize();
+        await _guiManager.Initialize();
     }
     private void Prepare()
     {

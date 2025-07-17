@@ -10,7 +10,6 @@ namespace Registrators
             var configs = Resources.LoadAll<ScriptableObject>("Configs/");
             foreach (var config in configs)
             {
-                Debug.Log($"Registering config: {config.name} ({config.GetType()})");
                 builder.RegisterInstance(config)
                     .As(config.GetType())
                     .AsImplementedInterfaces();

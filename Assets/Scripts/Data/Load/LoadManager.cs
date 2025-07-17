@@ -11,15 +11,12 @@ namespace Data.Load
         private SerializableGameData _tempGameData;
         public void Initialize()
         {
-            Debug.Log("LoadManager Initialized!");
             Load();
             FillData();
         }
 
         public void Load()
         {
-            Debug.Log("Load data!");
-
             if (!File.Exists(DataManager.DataPath))
             {
                 _tempGameData = new SerializableGameData();

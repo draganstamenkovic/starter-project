@@ -16,6 +16,8 @@ public class GameLifetimeScope : LifetimeScope
         ScreenControllersRegistrator.Register(builder);
         PopupControllersRegistrator.Register(builder);
         
+        builder.Register<IEventBus, EventBus>(Lifetime.Singleton);
+        
         builder.RegisterEntryPoint<Bootstrap>();
     }
 }

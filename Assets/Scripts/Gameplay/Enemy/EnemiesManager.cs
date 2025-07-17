@@ -11,6 +11,7 @@ namespace Gameplay.Enemy
     public class EnemiesManager : IEnemiesManager
     {
         [Inject] private readonly ICameraManager _cameraManager;
+        [Inject] private readonly IEventBus _eventBus;
         [Inject] private readonly EnemiesConfig _enemiesConfig;
         [Inject] private readonly GameData _gameData;
         
@@ -18,14 +19,11 @@ namespace Gameplay.Enemy
         private GameObject _enemyGridObject;
         private EnemyGrid _enemyGrid;
         
-        public Action OnEnemiesDestroyed {get; set;}
-        
         private int _enemiesCount;
         
-        public void Initialize(Transform gameplayParent, Action onEnemiesDestroyed)
+        public void Initialize(Transform gameplayParent)
         {
             _gameplayParent = gameplayParent;
-            OnEnemiesDestroyed = onEnemiesDestroyed;
             _enemyGrid = CreateGrid();
         }
 
@@ -80,8 +78,7 @@ namespace Gameplay.Enemy
                             _enemiesCount--;
                             if (_enemiesCount == 0)
                             {
-                                // TODO: Show popup Successfully finished level load next level
-                                OnEnemiesDestroyed?.Invoke();
+                                _eventBus.Raise(EventType.LevelCompleted);
                             }
                         });
                     }

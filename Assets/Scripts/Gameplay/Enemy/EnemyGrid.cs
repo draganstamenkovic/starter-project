@@ -47,9 +47,6 @@ namespace Gameplay.Enemy
             var gridOriginY = cameraCenter.y + (gridWorldHeight / 2f) - _enemiesConfig.GridPositionOffset;
 
             _gridOrigin = new Vector3(gridOriginX, gridOriginY, 0f);
-
-
-            Debug.Log($"Grid size: {_width}x{_height}");
         }
 
         private Vector3 GetWorldPosition(int x, int y)

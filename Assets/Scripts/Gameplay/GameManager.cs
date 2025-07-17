@@ -1,12 +1,12 @@
+using System;
 using Cameras;
 using Cysharp.Threading.Tasks;
 using Data.Load;
 using Gameplay.Enemy;
 using Gameplay.Level;
 using Gameplay.Player;
+using GUI;
 using GUI.Popups;
-using GUI.Popups.Builder;
-using GUI.Screens;
 using Input;
 using UnityEngine;
 using VContainer;
@@ -21,9 +21,7 @@ namespace Gameplay
         [Inject] private readonly IPlayerController _playerController;
         [Inject] private readonly ILevelManager _levelManager;
         [Inject] private readonly IEnemiesManager _enemiesManager;
-        [Inject] private readonly IPopupManager _popupManager;
-        [Inject] private readonly IPopupBuilder _popupBuilder;
-        //[Inject] private readonly IScreenManager _screenManager;
+        [Inject] private readonly IEventBus _eventBus;
         
         private Transform _gameplayParent;
         private bool _isPaused;
@@ -36,9 +34,18 @@ namespace Gameplay
             _playerController.Initialize(_gameplayParent);
             _inputManager.Initialize(_playerController);
             _levelManager.Initialize();
-            _enemiesManager.Initialize(_gameplayParent, LevelPassed);
+            _enemiesManager.Initialize(_gameplayParent);
             CreateGameBounds();
+            // subscribe to events
+            _eventBus.Subscribe(EventType.LevelCompleted, Stop);
+            _eventBus.Subscribe(EventType.LoadNextLevel, OnNextLevelStarted);
             await UniTask.CompletedTask;
+        }
+
+        private void OnNextLevelStarted()
+        {
+            _levelManager.LoadNextLevel();
+            Play();
         }
 
         public void Play()
@@ -73,30 +80,7 @@ namespace Gameplay
             _inputManager.SetActive(false);
             _enemiesManager.SetActive(false);
         }
-
-        private void LevelPassed()
-        {
-            Stop();
-            
-            // Dont use confirmation popup but rather use custom popup
-            // to avoid circular dependency with IScreenManager
-            _popupBuilder.Clear();
-            var popupData = _popupBuilder.Title("Success")
-                .Text("Level Completed!")
-                .AddButton("Continue", Color.green, () =>
-                {
-                    _popupManager.HidePopup(PopupIds.ConfirmationPopup);
-                    _levelManager.LoadNextLevel();
-                    Play();
-                })
-                .AddButton("Main Menu", Color.white, () =>
-                {
-                    //_screenManager.ShowScreen(GuiScreenIds.MainMenuScreen);
-                }).Build();
-            
-            _popupManager.ShowConfirmationPopup(popupData);
-        }
-
+        
         public void Quit()
         {
             Stop();

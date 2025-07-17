@@ -9,6 +9,7 @@ namespace Registrators
         {
             builder.Register<ConfirmationPopupController>(Lifetime.Singleton).As<IPopupController>();
             builder.Register<PromotionPopupController>(Lifetime.Singleton).As<IPopupController>();
+            builder.Register<LevelFinishedPopupController>(Lifetime.Singleton).As<IPopupController>();
         }
     }
 }
