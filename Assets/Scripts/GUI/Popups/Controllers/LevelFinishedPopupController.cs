@@ -1,5 +1,7 @@
-using Gameplay;
 using GUI.Popups.Views;
+using GUI.Screens;
+using Message;
+using Message.Messages;
 using UnityEngine;
 using VContainer;
 
@@ -7,7 +9,7 @@ namespace GUI.Popups.Controllers
 {
     public class LevelFinishedPopupController : IPopupController
     {
-        [Inject] private readonly IEventBus _eventBus;
+        [Inject] private readonly IMessageBroker _messageBroker;
         private IPopupManager _popupManager;
         private LevelFinishedPopupView _view;
         public string ID => PopupIds.LevelFinishedPopup;
@@ -34,13 +36,13 @@ namespace GUI.Popups.Controllers
         private void OnContinueButtonClicked()
         {
             _popupManager.HidePopup(PopupIds.LevelFinishedPopup);
-            _eventBus.Raise(EventType.LoadNextLevel);
+            _messageBroker.Publish(new NextLevelMessage());
         }
 
         private void OnQuitButtonClicked()
         {
             _popupManager.HidePopup(PopupIds.LevelFinishedPopup);
-            _eventBus.Raise(EventType.ShowMainMenuScreen);
+            _messageBroker.Publish(new ShowScreenMessage(GuiScreenIds.MainMenuScreen));
         }
 
         private void RemoveListeners()

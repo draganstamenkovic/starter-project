@@ -1,9 +1,13 @@
+using System;
 using System.Collections.Generic;
 using Configs;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using GUI.Screens.Controllers;
 using GUI.Screens.Views;
+using Message;
+using Message.Messages;
+using R3;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -14,12 +18,14 @@ namespace GUI.Screens
     {
         [Inject] private GUIScreensConfig _guiScreensConfig;
         [Inject] private IEnumerable<IScreenController> _controllers;
-        [Inject] private IEventBus _eventBus;
+        [Inject] private readonly IMessageBroker _messageBroker;
 
         private readonly IObjectResolver _objectResolver;
         private readonly Dictionary<string, RectTransform> _screens = new();
         private readonly Dictionary<string, RectTransform> _spawnedScreens = new();
 
+        private IDisposable _disposableMessage;
+        
         private GameObject _screenBlocker;
         private Transform _screenParent;
         private string _currentScreen;
@@ -33,7 +39,10 @@ namespace GUI.Screens
         {
             _screenParent = parent;
             _screenBlocker = screenBlocker;
-            _eventBus.Subscribe(EventType.ShowMainMenuScreen, ShowMainMenuScreen);
+            _disposableMessage = _messageBroker.Receive<ShowScreenMessage>().Subscribe(message =>
+            {
+                ShowScreen(GuiScreenIds.MainMenuScreen);
+            });
             
             foreach (var screen in _guiScreensConfig.Screens)
             {
@@ -43,12 +52,6 @@ namespace GUI.Screens
                 }
             }
         }
-
-        private void ShowMainMenuScreen()
-        {
-            ShowScreen(GuiScreenIds.MainMenuScreen);
-        }
-
 
         public async UniTask ShowScreen(string screenName)
         {
@@ -144,6 +147,11 @@ namespace GUI.Screens
             await screen.DOAnchorPos(screenPosition, _guiScreensConfig.TransitionDuration)
                 .SetEase(_guiScreensConfig.TransitionEase)
                 .AsyncWaitForCompletion();
+        }
+
+        public void CleanUp()
+        {
+            _disposableMessage?.Dispose();
         }
     }
 }

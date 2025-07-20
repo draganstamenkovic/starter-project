@@ -4,6 +4,9 @@ using Configs;
 using GUI.Popups.Builder;
 using GUI.Popups.Controllers;
 using GUI.Popups.Views;
+using Message;
+using Message.Messages;
+using R3;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -14,7 +17,7 @@ namespace GUI.Popups
     {
         [Inject] private readonly PopupsConfig _popupConfig;
         [Inject] private IEnumerable<IPopupController> _controllers;
-        [Inject] private readonly IEventBus _eventBus;
+        [Inject] private readonly IMessageBroker _messageBroker;
         
         private IObjectResolver _objectResolver;
         private readonly Dictionary<string, RectTransform> _popups = new();
@@ -33,7 +36,11 @@ namespace GUI.Popups
         {
             _popupParent = parent;
             _screenBlocker = screenBlocker;
-            _eventBus.Subscribe(EventType.LevelCompleted, ShowLevelFinishedPopup);
+            _messageBroker.Receive<ShowPopupMessage>().Subscribe(message =>
+            {
+                ShowPopupScreen(message.Id);
+            });
+            
             foreach (var popup in _popupConfig.Popups)
             {
                 if (!_popups.ContainsKey(popup.Name))
@@ -42,12 +49,6 @@ namespace GUI.Popups
                 }
             }
         }
-
-        private void ShowLevelFinishedPopup()
-        {
-            ShowPopupScreen(PopupIds.LevelFinishedPopup);
-        }
-
         public void ShowConfirmationPopup(PopupData popupData, Action callback = null)
         {
             _screenBlocker.SetActive(true);

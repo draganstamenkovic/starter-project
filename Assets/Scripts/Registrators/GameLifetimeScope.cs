@@ -1,4 +1,5 @@
 using Registrators;
+using Message;
 using VContainer;
 using VContainer.Unity;
 
@@ -16,8 +17,7 @@ public class GameLifetimeScope : LifetimeScope
         ScreenControllersRegistrator.Register(builder);
         PopupControllersRegistrator.Register(builder);
         
-        builder.Register<IEventBus, EventBus>(Lifetime.Singleton);
-        
+        builder.Register<IMessageBroker, MessageBroker>(Lifetime.Singleton);
         builder.RegisterEntryPoint<Bootstrap>();
     }
 }

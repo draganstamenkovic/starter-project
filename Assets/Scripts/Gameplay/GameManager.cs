@@ -5,9 +5,10 @@ using Data.Load;
 using Gameplay.Enemy;
 using Gameplay.Level;
 using Gameplay.Player;
-using GUI;
-using GUI.Popups;
 using Input;
+using Message;
+using Message.Messages;
+using R3;
 using UnityEngine;
 using VContainer;
 
@@ -21,7 +22,9 @@ namespace Gameplay
         [Inject] private readonly IPlayerController _playerController;
         [Inject] private readonly ILevelManager _levelManager;
         [Inject] private readonly IEnemiesManager _enemiesManager;
-        [Inject] private readonly IEventBus _eventBus;
+
+        [Inject] private readonly IMessageBroker _messageBroker;
+        private IDisposable _disposableMessage;
         
         private Transform _gameplayParent;
         private bool _isPaused;
@@ -36,14 +39,18 @@ namespace Gameplay
             _levelManager.Initialize();
             _enemiesManager.Initialize(_gameplayParent);
             CreateGameBounds();
-            // subscribe to events
-            _eventBus.Subscribe(EventType.LevelCompleted, Stop);
-            _eventBus.Subscribe(EventType.LoadNextLevel, OnNextLevelStarted);
+            
+            _disposableMessage = _messageBroker.Receive<NextLevelMessage>().Subscribe(message =>
+            {
+                OnNextLevelStarted();
+            });
+            
             await UniTask.CompletedTask;
         }
 
         private void OnNextLevelStarted()
         {
+            Stop();
             _levelManager.LoadNextLevel();
             Play();
         }
@@ -84,6 +91,7 @@ namespace Gameplay
         public void Quit()
         {
             Stop();
+            Cleanup();
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #elif UNITY_ANDROID || UNITY_IOS
@@ -109,6 +117,11 @@ namespace Gameplay
             topBound.transform.position = new Vector3(0, camera.orthographicSize + 1, 0);
             topBound.AddComponent<BoxCollider2D>();
             topBound.gameObject.layer = LayerMask.NameToLayer(LayerIds.Border);
+        }
+
+        private void Cleanup()
+        {
+            _disposableMessage?.Dispose();
         }
     }
 }

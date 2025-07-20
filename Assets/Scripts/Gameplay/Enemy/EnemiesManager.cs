@@ -1,7 +1,9 @@
-using System;
 using Cameras;
 using Configs;
 using Data;
+using GUI.Popups;
+using Message;
+using Message.Messages;
 using UnityEngine;
 using VContainer;
 using Object = UnityEngine.Object;
@@ -11,7 +13,7 @@ namespace Gameplay.Enemy
     public class EnemiesManager : IEnemiesManager
     {
         [Inject] private readonly ICameraManager _cameraManager;
-        [Inject] private readonly IEventBus _eventBus;
+        [Inject] private readonly IMessageBroker _messageBroker;
         [Inject] private readonly EnemiesConfig _enemiesConfig;
         [Inject] private readonly GameData _gameData;
         
@@ -78,7 +80,7 @@ namespace Gameplay.Enemy
                             _enemiesCount--;
                             if (_enemiesCount == 0)
                             {
-                                _eventBus.Raise(EventType.LevelCompleted);
+                                _messageBroker.Publish(new ShowPopupMessage(PopupIds.LevelFinishedPopup));
                             }
                         });
                     }
