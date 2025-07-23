@@ -5,7 +5,7 @@ namespace Gameplay
 {
     public interface IGameManager
     {
-        UniTask Initialize();
+        void Initialize();
         void Play();
         void Pause();
         void Resume();

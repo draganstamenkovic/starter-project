@@ -29,7 +29,7 @@ namespace Gameplay
         private Transform _gameplayParent;
         private bool _isPaused;
         
-        public async UniTask Initialize()
+        public void Initialize()
         {
             CreateGameplayParent();
             _cameraManager.Initialize();
@@ -40,7 +40,6 @@ namespace Gameplay
             _enemiesManager.Initialize(_gameplayParent);
             CreateGameBounds();
             SubscribeToEvents();
-            await UniTask.CompletedTask;
         }
 
         private void OnNextLevelStarted()

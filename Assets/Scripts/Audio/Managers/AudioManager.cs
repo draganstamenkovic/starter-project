@@ -14,7 +14,7 @@ namespace Audio.Managers
         [Inject] private IMessageBroker _messageBroker;
         private AudioSource _backgroundMusicSource;
         private AudioSource _sfxSource;
-        public async UniTask Initialize()
+        public void Initialize()
         {
             var audioManager = new GameObject("_AudioManager_");
             var backgroundMusicObject = new GameObject("BackgroundMusic");
@@ -33,14 +33,14 @@ namespace Audio.Managers
             _backgroundMusicSource.volume = 0.35f;
             _backgroundMusicSource.loop = true;
             _backgroundMusicSource.clip = _audioConfig.backgroundMusic;
-
+            _backgroundMusicSource.Play();
+            
             _sfxSource.playOnAwake = false;
 
             _messageBroker.Receive<PlaySfxMessage>().Subscribe(message =>
             {
                 PlaySfx(message.Id);
             });
-            await UniTask.CompletedTask;
         }
 
         public void PlaySfx(string sfxId)
