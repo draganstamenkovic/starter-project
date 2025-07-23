@@ -5,8 +5,9 @@ namespace Audio.Managers
     public interface IAudioManager
     {
         UniTask Initialize();
-        void Play();
-        void Stop();
-        void Pause();
+        void PlaySfx(string sfxId);
+        void PlayBackgroundMusic();
+        void StopBackgroundMusic();
+        void PauseBackgroundMusic();
     }
 }

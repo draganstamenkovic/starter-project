@@ -19,6 +19,7 @@ public class Bootstrap : IAsyncStartable
         await _audioManager.Initialize();
         await _gameManager.Initialize();
         await _guiManager.Initialize();
+        _audioManager.PlayBackgroundMusic();
     }
     private void Prepare()
     {

@@ -1,4 +1,6 @@
 using System;
+using Audio;
+using Audio.Managers;
 using Cameras;
 using Configs;
 using Data;
@@ -14,6 +16,7 @@ namespace Gameplay.Player
         [Inject] private GameData _gameData;
         [Inject] private IProjectilePool _projectilePool;
         [Inject] private ICameraManager _cameraManager;
+        [Inject] private IAudioManager _audioManager;
         private readonly IObjectResolver _objectResolver;
 
         private PlayerView _playerView;
@@ -70,6 +73,7 @@ namespace Gameplay.Player
         public void Fire()
         {
             SpawnProjectile();
+            _audioManager.PlaySfx(AudioIds.PlayerShoot);
         }
 
         public void SetActive(bool active)

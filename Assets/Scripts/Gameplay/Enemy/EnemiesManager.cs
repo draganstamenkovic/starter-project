@@ -1,4 +1,5 @@
 using System;
+using Audio;
 using Cameras;
 using Configs;
 using Data;
@@ -78,6 +79,7 @@ namespace Gameplay.Enemy
                         var enemyController = enemy.GetComponent<Enemy>();
                         enemyController.Initialize(defaultEnemy, () =>
                         {
+                            _messageBroker.Publish(new PlaySfxMessage(AudioIds.EnemyShipDestroyed));
                             enemiesCount--;
                             if (enemiesCount > 0) return;
                                 _messageBroker.Publish(new ShowPopupMessage(PopupIds.LevelFinishedPopup));

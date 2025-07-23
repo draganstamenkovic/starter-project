@@ -1,5 +1,8 @@
 using Configs;
 using Cysharp.Threading.Tasks;
+using Message;
+using Message.Messages;
+using R3;
 using UnityEngine;
 using VContainer;
 
@@ -8,29 +11,62 @@ namespace Audio.Managers
     public class AudioManager : IAudioManager
     {
         [Inject] private AudioConfig _audioConfig;
-        private AudioSource _audioSource;
+        [Inject] private IMessageBroker _messageBroker;
+        private AudioSource _backgroundMusicSource;
+        private AudioSource _sfxSource;
         public async UniTask Initialize()
         {
             var audioManager = new GameObject("_AudioManager_");
-            audioManager.AddComponent<AudioSource>();
-            _audioSource = audioManager.GetComponent<AudioSource>();
+            var backgroundMusicObject = new GameObject("BackgroundMusic");
+            var sfxSourceObject = new GameObject("SfxSource");
             
+            backgroundMusicObject.transform.SetParent(audioManager.transform);
+            sfxSourceObject.transform.SetParent(audioManager.transform);
+            
+            backgroundMusicObject.AddComponent<AudioSource>();
+            sfxSourceObject.AddComponent<AudioSource>();
+            
+            _backgroundMusicSource = backgroundMusicObject.GetComponent<AudioSource>();
+            _sfxSource = sfxSourceObject.GetComponent<AudioSource>();
+            
+            _backgroundMusicSource.playOnAwake = false;
+            _backgroundMusicSource.volume = 0.35f;
+            _backgroundMusicSource.loop = true;
+            _backgroundMusicSource.clip = _audioConfig.backgroundMusic;
+
+            _sfxSource.playOnAwake = false;
+
+            _messageBroker.Receive<PlaySfxMessage>().Subscribe(message =>
+            {
+                PlaySfx(message.Id);
+            });
             await UniTask.CompletedTask;
         }
 
-        public void Play()
+        public void PlaySfx(string sfxId)
         {
-            throw new System.NotImplementedException();
+            var audioClip = _audioConfig.GetSfxSound(sfxId);
+            _sfxSource.PlayOneShot(audioClip);
         }
 
-        public void Stop()
+        public void PlayBackgroundMusic()
         {
-            throw new System.NotImplementedException();
+            _backgroundMusicSource.Play();
         }
 
-        public void Pause()
+        public void StopBackgroundMusic()
         {
-            throw new System.NotImplementedException();
+            _backgroundMusicSource.Stop();
+        }
+
+        public void PauseBackgroundMusic()
+        {
+            _backgroundMusicSource.Pause();
+        }
+
+        private AudioClip GetAudioClip(string audioId)
+        {
+            return null;
         }
     }
 }
