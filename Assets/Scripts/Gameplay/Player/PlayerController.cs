@@ -36,14 +36,14 @@ namespace Gameplay.Player
         {
             var player = _objectResolver.Instantiate(_playerConfig
                 .GetActiveShipPrefab(_gameData.ActiveShip.Id), gameplayParent);
-
+            player.SetActive(false);
             var positionY = -_cameraManager.GetOrthographicSize()
                             + player.transform.localScale.y 
                             + _playerConfig.offsetPositionY;
             _startPosition = new Vector3(0,positionY,0);
+            player.transform.position = _startPosition;
 
             _playerView = player.GetComponent<PlayerView>();
-            SetActive(false);
             _projectilePool.Initialize(_objectResolver, gameplayParent);
         }
 
@@ -75,6 +75,7 @@ namespace Gameplay.Player
         public void SetActive(bool active)
         {
             _playerView.gameObject.SetActive(active);
+            _projectilePool.SetActive(active);
             if (active)
             {
                 _playerView.Rigidbody.bodyType = RigidbodyType2D.Dynamic;
@@ -86,7 +87,7 @@ namespace Gameplay.Player
                 _playerView.transform.localPosition = _startPosition;
             }
         }
-        
+
         private void SpawnProjectile()
         {
             var projectile = _projectilePool.Pool.Get();

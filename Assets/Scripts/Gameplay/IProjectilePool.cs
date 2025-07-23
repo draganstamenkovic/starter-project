@@ -9,5 +9,6 @@ namespace Gameplay
     {
         IObjectPool<Projectile> Pool { get; }
         void Initialize(IObjectResolver objectResolver, Transform gameplayParent);
+        void SetActive(bool active);
     }
 }

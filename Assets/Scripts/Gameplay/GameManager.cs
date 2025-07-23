@@ -39,20 +39,23 @@ namespace Gameplay
             _levelManager.Initialize();
             _enemiesManager.Initialize(_gameplayParent);
             CreateGameBounds();
-            
-            _disposableMessage = _messageBroker.Receive<NextLevelMessage>().Subscribe(message =>
-            {
-                OnNextLevelStarted();
-            });
-            
+            SubscribeToEvents();
             await UniTask.CompletedTask;
         }
 
         private void OnNextLevelStarted()
         {
-            Stop();
             _levelManager.LoadNextLevel();
             Play();
+        }
+
+        private void SubscribeToEvents()
+        {
+            _enemiesManager.OnEnemiesDestroyed = Stop;
+            _disposableMessage = _messageBroker.Receive<NextLevelMessage>().Subscribe(message =>
+            {
+                OnNextLevelStarted();
+            });
         }
 
         public void Play()

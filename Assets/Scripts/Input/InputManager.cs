@@ -24,7 +24,8 @@ namespace Input
             
             _joystick = _joystickTransform.GetComponent<VariableJoystick>();
             _fireButton = _fireButtonTransform.GetComponent<Button>();
-            SetActive(false);
+            _joystickTransform.gameObject.SetActive(false);
+            _fireButtonTransform.gameObject.SetActive(false);
         }
 
         private void OnFireButtonClicked()

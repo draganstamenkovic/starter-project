@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using Configs;
+using SRF;
 using UnityEngine;
 using UnityEngine.Pool;
 using VContainer;
@@ -14,6 +16,7 @@ namespace Gameplay
         private Transform _poolParent;
         
         private IObjectPool<Projectile> _projectilePool;
+        private List<Projectile> _projectiles;
 
         public IObjectPool<Projectile> Pool
         {
@@ -42,24 +45,24 @@ namespace Gameplay
             _objectResolver = objectResolver;
             
             var projectilePool = new GameObject(nameof(ProjectilePool));
+            projectilePool.SetActive(false);
             projectilePool.transform.SetParent(gameplayParent);
             
             _poolParent = projectilePool.transform;
-            
             Prewarm();
         }
 
         private void Prewarm()
         {
-            var tempProjectileList = new List<Projectile>();
+            _projectiles = new List<Projectile>();
 
             for (int i = 0; i < _projectileConfig.defaultCapacity; i++)
             {
                 var projectile = Pool.Get();
-                tempProjectileList.Add(projectile);
+                _projectiles.Add(projectile);
             }
 
-            foreach (var projectile in tempProjectileList)
+            foreach (var projectile in _projectiles)
             {
                 Pool.Release(projectile);
             }
@@ -74,17 +77,29 @@ namespace Gameplay
             projectile.gameObject.SetActive(false);
             return projectile;
         }
-        private void TakeFromPool(Projectile bullet)
+        private void TakeFromPool(Projectile projectile)
         {
-            bullet.gameObject.SetActive(true);
+            projectile.gameObject.SetActive(true);
         }
-        private void ReturnToPool(Projectile bullet)
+        private void ReturnToPool(Projectile projectile)
         {
-            bullet.gameObject.SetActive(false);
+            projectile.gameObject.SetActive(false);
         }
-        private void DestroyPooledObject(Projectile bullet)
+        private void DestroyPooledObject(Projectile projectile)
         {
-            Object.Destroy(bullet);
+            Object.Destroy(projectile);
+        }
+
+        public void SetActive(bool active)
+        {
+            if (!active)
+            {
+                foreach (var projectile in _projectiles.Where(projectile => projectile.isActiveAndEnabled))
+                {
+                    Pool.Release(projectile);
+                }
+            }
+            _poolParent.gameObject.SetActive(active);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using Cameras;
 using Configs;
 using Data;
@@ -20,8 +21,8 @@ namespace Gameplay.Enemy
         private Transform _gameplayParent;
         private GameObject _enemyGridObject;
         private EnemyGrid _enemyGrid;
-        
-        private int _enemiesCount;
+
+        public Action OnEnemiesDestroyed { get; set; }
         
         public void Initialize(Transform gameplayParent)
         {
@@ -61,7 +62,7 @@ namespace Gameplay.Enemy
         private void SpawnEnemies()
         {
             var defaultEnemy = _enemiesConfig.GetEnemy(EnemyIds.Default);
-            
+            var enemiesCount = 0;
             for (var enemyIndex = 0; enemyIndex < _gameData.CurrentLevel.NumberOfEnemies; enemyIndex++)
             {
                 var gridPos = _enemyGrid.GetFreePosition();
@@ -73,15 +74,14 @@ namespace Gameplay.Enemy
                         var enemy = Object.Instantiate(defaultEnemy.Prefab, spawnPosition, 
                             Quaternion.identity,
                             _enemyGridObject.transform);
-                        _enemiesCount++;
+                        enemiesCount++;
                         var enemyController = enemy.GetComponent<Enemy>();
                         enemyController.Initialize(defaultEnemy, () =>
                         {
-                            _enemiesCount--;
-                            if (_enemiesCount == 0)
-                            {
+                            enemiesCount--;
+                            if (enemiesCount > 0) return;
                                 _messageBroker.Publish(new ShowPopupMessage(PopupIds.LevelFinishedPopup));
-                            }
+                                OnEnemiesDestroyed?.Invoke();
                         });
                     }
                     else
