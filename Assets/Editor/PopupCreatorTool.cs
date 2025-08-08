@@ -103,13 +103,11 @@ namespace Editor
                 .AppendLine("{")
                 .AppendLine($"    public class {name}PopupView : PopupView")
                 .AppendLine("    {")
-                .AppendLine()
-                .AppendLine("        public override void Initialize();")
+                .AppendLine("        public override void Initialize()")
                 .AppendLine("        {")
-                .AppendLine("             base.Initialize()")
+                .AppendLine("            base.Initialize();")
                 .AppendLine($"            ID = PopupIds.{name}Popup;")
                 .AppendLine("        }")
-                .AppendLine()
                 .AppendLine("    }")
                 .AppendLine("}");
 
@@ -155,7 +153,7 @@ namespace Editor
                 .AppendLine()
                 .AppendLine("        private void HidePopup()")
                 .AppendLine("        {")
-                .AppendLine("            _popupManager.HideConfirmationPopup();")
+                .AppendLine("            _popupManager.HidePopup(ID);")
                 .AppendLine("        }")
                 .AppendLine("    }")
                 .AppendLine("}");
