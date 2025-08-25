@@ -79,13 +79,13 @@ namespace Gameplay.Player
         public void SetActive(bool active)
         {
             _playerView.gameObject.SetActive(active);
-            _projectilePool.SetActive(active);
             if (active)
             {
                 _playerView.Rigidbody.bodyType = RigidbodyType2D.Dynamic;
             }
             else
             {
+                _projectilePool.ReleaseAll();
                 _playerView.Rigidbody.bodyType = RigidbodyType2D.Kinematic;
                 _playerView.Rigidbody.linearVelocity = Vector2.zero;
                 _playerView.transform.localPosition = _startPosition;

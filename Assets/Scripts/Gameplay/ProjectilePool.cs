@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Configs;
-using SRF;
 using UnityEngine;
 using UnityEngine.Pool;
 using VContainer;
@@ -12,11 +11,15 @@ namespace Gameplay
     public class ProjectilePool : IProjectilePool
     {
         [Inject] private ProjectileConfig _projectileConfig;
+
         private IObjectResolver _objectResolver;
-        private Transform _poolParent;
-        
+
+        private Transform _poolParent;   // hidden storage for inactive projectiles
+        private Transform _activeParent; // visible parent for active projectiles
+
         private IObjectPool<Projectile> _projectilePool;
-        private List<Projectile> _projectiles;
+        private readonly HashSet<Projectile> _activeProjectiles = new();
+
 
         public IObjectPool<Projectile> Pool
         {
@@ -43,27 +46,34 @@ namespace Gameplay
         public void Initialize(IObjectResolver objectResolver, Transform gameplayParent)
         {
             _objectResolver = objectResolver;
-            
-            var projectilePool = new GameObject(nameof(ProjectilePool));
-            projectilePool.SetActive(false);
-            projectilePool.transform.SetParent(gameplayParent);
-            
-            _poolParent = projectilePool.transform;
+
+            var root = new GameObject(nameof(ProjectilePool));
+            root.transform.SetParent(gameplayParent);
+
+            _activeParent = new GameObject("ActiveProjectiles").transform;
+            _activeParent.SetParent(root.transform);
+
+            _poolParent = new GameObject("PooledProjectiles").transform;
+            _poolParent.SetParent(root.transform);
+            _poolParent.gameObject.SetActive(false);
+
             Prewarm();
+        }
+
+        public void ReleaseAll()
+        {
+            foreach (var projectile in _activeProjectiles.ToArray())
+            {
+                Pool.Release(projectile);
+            }
+            _activeProjectiles.Clear();
         }
 
         private void Prewarm()
         {
-            _projectiles = new List<Projectile>();
-
             for (int i = 0; i < _projectileConfig.defaultCapacity; i++)
             {
                 var projectile = Pool.Get();
-                _projectiles.Add(projectile);
-            }
-
-            foreach (var projectile in _projectiles)
-            {
                 Pool.Release(projectile);
             }
         }
@@ -73,33 +83,28 @@ namespace Gameplay
             var projectile = _objectResolver.Instantiate(
                 _projectileConfig.GetProjectilePrefab("Default"),
                 _poolParent, true);
-            
+
             projectile.gameObject.SetActive(false);
             return projectile;
         }
+
         private void TakeFromPool(Projectile projectile)
         {
+            projectile.transform.SetParent(_activeParent);
             projectile.gameObject.SetActive(true);
-        }
-        private void ReturnToPool(Projectile projectile)
-        {
-            projectile.gameObject.SetActive(false);
-        }
-        private void DestroyPooledObject(Projectile projectile)
-        {
-            Object.Destroy(projectile);
+            _activeProjectiles.Add(projectile);
         }
 
-        public void SetActive(bool active)
+        private void ReturnToPool(Projectile projectile)
         {
-            if (!active)
-            {
-                foreach (var projectile in _projectiles.Where(projectile => projectile.isActiveAndEnabled))
-                {
-                    Pool.Release(projectile);
-                }
-            }
-            _poolParent.gameObject.SetActive(active);
+            projectile.transform.SetParent(_poolParent);
+            projectile.gameObject.SetActive(false);
+            _activeProjectiles.Remove(projectile);
+        }
+
+        private void DestroyPooledObject(Projectile projectile)
+        {
+            Object.Destroy(projectile.gameObject);
         }
     }
 }
